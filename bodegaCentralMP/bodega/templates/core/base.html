@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="{% static 'core/css/styles.css' %}">
+
+    <link rel="icon" href="{% static 'core/img/metro.svg' %}" type="image/x-icon">
+
+    <title>{% block title %}{% endblock %} | Bodega MP</title>
+</head>
+
+<body onload="showTime(); getLocation();">
+    <header class="container-fluid py-1 text-center">
+        <h1>Bodega<span class="text-danger">MP</span></h1>
+        <!-- Bloque que muestra la hora -->
+        <p id="tiempo" class="fs-5"></p>
+        <!-- Fin Bloque que muestra la hora -->
+        <!-- Switch de Tema Oscuro -->
+        <div class="container-fluid">
+            <div class="row justify-content-center fs-3 mb-1">
+                <div class="col-auto">
+                    <span>
+                        <i class="bi bi-brightness-high-fill"></i>
+                    </span>
+                </div>
+                <div class="col-auto px-1">
+                    <div class="form-check form-switch px-0">
+                        <input class="form-check-input mx-0" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <span>
+                        <i class="bi bi-moon-fill"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <!-- Fin Switch de Tema Oscuro -->
+    </header>
+    <!--     BARRA DE NAVEGACION      -->
+    <nav class="navbar sticky-top pt-0 pb-0 navbar-expand-sm navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand pt-1" href="{% url 'home' %}">
+                <p class="fs-3 pt-2"><img id="logo" src="#" alt="">Bodega<span class="text-danger">MP</span>
+                </p>
+            </a>
+            <button class="navbar-toggler pt-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse pt-0" id="navbarNavDropdown">
+                <ul class="navbar-nav me-auto mb-lg-0 fs-3">
+                    <li class="nav-item fs-4">
+                        <a class="nav-link link active pt-0" aria-current="page" href="{% url 'home' %}">Inicio</a>
+                    </li>
+                    <li class="nav-item fs-4 dropdown">
+                        <a class="nav-link link dropdown-toggle pt-0" href="#" id="navbarDropdownMenuLink" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Red
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li class="dropdown-item disabled">Información de:</li>
+                            <li><a class="dropdown-item" href="#">Transantiago</a></li>
+                            <li><a class="dropdown-item" href="#">Metro</a></li>
+                            <li><a class="dropdown-item" href="#">Saldo Bip!</a></li>
+                        </ul>
+                    </li>
+                    <!-- Esta página será la que contenga el formulario requerido para la evaluación -->
+                    <li class="nav-item fs-4">
+                        <a class="nav-link link pt-0" href="#" target="_self">Contacto</a>
+                    </li>
+                    <!-- Esta página debe contener la información de todos los integrantes del grupo -->
+                    <li class="nav-item fs-4">
+                        <a class="nav-link link pt-0" href="#" target="_self">Nosotros</a>
+                    </li>
+                    {% if request.session.usuario and request.session.usuario.rol == 'Usuario' %}
+                    <!-- Esta página debe contener las tarjetas guardadas -->
+                    <li class="nav-item fs-4">
+                        <a class="nav-link link pt-0" href="#" target="_self">Tarjetas</a>
+                    </li>
+                    {% endif %}
+                    {% if request.session.usuario.rol == 'ADMIN' %}
+                    <!-- Esta página debe contener las tarjetas guardadas -->
+                    <li class="nav-item fs-4">
+                        <a class="nav-link link pt-0" href="#" target="_self">CRUD</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="justify-content-end">
+                <ul class="navbar-nav mb-lg-0">
+                    <!-- Este item debe mostrar el nombre del usuario y el cerrar sesión cuando corresponda, sino mostrará un botón "Cuenta" -->
+                    {% if request.session.usuario %}
+                    <li class="nav-item fs-5">
+                        Hola, <strong>{{request.session.usuario.first_name}}</strong><br>
+                        <a class="link" href="#">Cerrar sesión</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item fs-4">
+                        <a class="nav-link link text-center fw-bold fs-5 pt-0" href="#" target="_self">
+                            <button class="btn btn-danger">Cuenta</button>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{ message }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    {% block content %}
+    <!-- Agregar contenido aquí -->
+    {% endblock %}
+
+    <!-- Footer -->
+    <footer class="bg-dark text-center">
+        <div class="container-fluid py-3">
+            <!-- Redes sociales -->
+            <div>
+                <!-- Facebook -->
+                <a class="btn btn-outline-light btn-floating m-1" href="https://es-la.facebook.com/redmovilidadoficial/"
+                    target="_blank" role="button">
+                    <i class="bi bi-facebook footer-icon"></i>
+                </a>
+
+                <!-- Instagram -->
+                <a class="btn btn-outline-light btn-floating m-1" href="https://www.instagram.com/red_movilidad/?hl=es"
+                    target="_blank" role="button">
+                    <i class="bi bi-instagram footer-icon"></i>
+                </a>
+
+                <!-- Twitter -->
+                <a class="btn btn-outline-light btn-floating m-1" href="https://twitter.com/red_movilidad/"
+                    target="_blank" role="button">
+                    <i class="bi bi-twitter footer-icon"></i>
+                </a>
+            </div>
+        </div>
+        <hr>
+
+
+        <!-- Links -->
+        <div class="container-fluid">
+            <section>
+                <br>
+                <div class="row justify-content-center">
+
+                    <!-- Columna links -->
+                    <div class="col-3">
+                        <h5 class="text-uppercase">Links útiles</h5>
+                        <ul class="list-unstyled mb-0">
+                            <li>
+                                <a href="{% url 'home' %}" class="nav-link link pt-1 pb-2">Inicio</a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link link pt-1 pb-2">Contacto</a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link link pt-1 pb-2">Nosotros</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Columna links -->
+                    <div class="col-3">
+                        <h5 class="text-uppercase">Datos de contacto</h5>
+                        <ul class="list-unstyled mb-0">
+                            <li>
+                                <p>Tel: (+56) 2 4587 2167</p>
+                            </li>
+                            <li>
+                                <p>Email: transportes@red.cl</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Columna links -->
+                    <div class="col-3">
+                        <h5 class="text-uppercase">Servicios</h5>
+                        <ul class="list-unstyled mb-0">
+                            <li>
+                                <a class="nav-link link pt-1 pb-2" href="#">Buses RED</a>
+                            </li>
+                            <li>
+                                <a class="nav-link link pt-1 pb-2" href="#">Metro</a>
+                            </li>
+                            <li>
+                                <a class="nav-link link pt-1 pb-2" href="#">Consulta saldo Bip!</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Columna Mapa -->
+                    <div class="col-3">
+                        <div id="mapa" class="rounded mb-4"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2022 Copyright: <a class="footer-link" href="{% url 'home' %}">DBA</a>
+        </div>
+    </footer>
+
+    <!-- jQuery, Popper, Bootstrap -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+        integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+
+
+    <!-- Scripts Propios -->
+    <script src="{% static 'core/js/javascript.js' %}"></script>
+    {% block scripts %}
+    {% endblock %}
+</body>
+
+</html>

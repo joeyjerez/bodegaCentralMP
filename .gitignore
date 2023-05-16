@@ -1,0 +1,6 @@
+#Carpeta Visual Studio Code
+.vs/
+
+#pycache
+_pycache_
+.pyc

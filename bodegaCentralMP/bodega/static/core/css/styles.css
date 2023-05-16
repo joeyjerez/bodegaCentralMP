@@ -1,0 +1,207 @@
+body {
+    background-color: rgb(238, 238, 238);
+}
+
+body header {
+    background-color: #660000;
+    color: whitesmoke;
+}
+
+body footer {
+    background-color: #2C2C34;
+    color: whitesmoke;
+}
+
+i.bi{
+    color: white;
+}
+
+.dark-mode {
+    background-color: #0b0b0cde;
+    color: whitesmoke;
+}
+
+a.btn i:hover {
+    color: black !important;
+}
+
+#Carousel1,  #Carousel2, #Carousel3 {
+    height: 400px;
+    width: 800px;
+    border-radius: 3%;
+}
+
+#ParrafoCard1, #ParrafoCard2, #ParrafoCard3{
+    text-align: start;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: medium;
+}
+
+#ImagenCard1, #ImagenCard2, #ImagenCard3 {
+    height: 100%;
+    width: 100%;
+}
+
+#logo{
+    height: 30px;   
+}
+
+footer{
+    background-color:#2C2C34;
+}
+
+#button-enviar {
+    position: relative; 
+    left: 88%; 
+    border-color: transparent;
+}
+
+.box{
+    box-sizing: border-box;
+    border-left-color: rgb(207, 21, 45);
+    border-left-style: solid;
+    border-left-width: 10px;
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 25px;
+    font-weight: lighter;
+    line-height: normal;
+    margin-bottom: 0px;
+    margin-left: 40px;
+    margin-right: 0px;
+    margin-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 30px;
+    padding-right: 0px;
+    padding-top: 0px;
+    text-align: left;
+}
+
+#leer1, #leer2 {
+    color: red;
+}
+
+li.dropdown-item {
+    font-weight: 600;
+}
+
+li.dropdown-item.disabled {
+    color: crimson;
+    font-weight: 600;
+}
+
+a.nav-link {
+    color: whitesmoke !important;
+}
+
+.footer-link {
+    color: whitesmoke;
+}
+
+.footer-link:hover {
+    color: red !important;
+    transition: 0.3s;
+}
+
+.link:hover {
+    color: red !important;
+    transition: 0.3s;
+}
+
+.card {
+    max-width: 540px;
+}
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    [class*="col-"] {
+      width: 100%;
+    }
+  }
+
+#titulo {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: 300;
+    font-size: 45px;
+    margin-top: 20px;
+}
+
+#imgMetroA {
+    height: 100%;
+    width: 100%;
+    margin-bottom: 100px;
+    border-radius: 2%;
+}
+
+#textoMetroA {
+    text-align: justify;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 19px;
+}
+
+#tituloMetroA {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#btnMetro{
+    margin-left: auto;
+}
+
+#button-enviar {
+
+    position: relative; 
+    left: 45%; 
+    border-color: transparent;
+
+}
+
+#text-dv {
+
+    max-width: 20%;
+
+}
+
+#numero-contacto {
+
+    width: 300%;
+    margin-right: 25%;
+    
+    
+
+}
+
+#titulo-contacto {
+    background-color: #2C2C34;
+}
+
+#alerta-rut {
+
+    background-color: #f02d3a;
+    border-color: #800016;
+}
+
+
+#div-session {
+
+    margin-left: 12%;
+    margin-right: 12%;
+}
+
+#div-session-pass {
+
+    margin-left: 12%;
+    margin-right: 12%;
+}
+
+#fondo-info-img1, #fondo-info-img2, #fondo-info-img3 {
+    --bs-bg-opacity: .25 ;
+}
+
+#card-contacto {
+    min-width: 60%;
+}
+
+#vicente, #abraham, #nicolas, #bastian {
+    width: 420px;
+    height: 419px;
+}
