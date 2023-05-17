@@ -33,3 +33,56 @@ from .models import *
 #             'correo': forms.TextInput(attrs={'class':'form-control'}),
 #             'foto': forms.FileInput(attrs={'class':'form-control'})
 #         }
+
+class UsuarioForm(ModelForm):
+    class Meta:
+        model = Usuario
+        
+        fields = [
+            'nombre',
+            'apellido',
+            'cargo',
+            'correo',
+            'contraseña',
+        ]
+        labels = {
+            'nombre': 'Nombre',
+            'apellido': 'Apellido',
+            'cargo': 'Cargo',
+            'correo': 'Correo',
+            'contraseña': 'Contraseña',
+        }
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class':'form-control'}),
+            'apellidos': forms.TextInput(attrs={'class':'form-control'}),
+            'cargo': forms.TextInput(attrs={'class':'form-control'}),
+            'correo': forms.TextInput(attrs={'class':'form-control'}),
+            'contraseña': forms.TextInput(attrs={'class':'form-control'}),
+        }
+
+class ProductoForm(ModelForm):
+    class Meta:
+        model = Producto
+        
+        fields = [
+            'codigo',
+            'nombre',
+            'marca',
+            'categoria',
+            'subcategoria',
+        ]
+        labels = {
+            'codigo': 'Código',
+            'nombre': 'Nombre',
+            'marca': 'Marca',
+            'categoria': 'Categoría',
+            'subcategoria': 'Subcategoría',
+        }
+        widgets = {
+            'codigo': forms.TextInput(attrs={'required': True, 'class':'form-control'}),
+            'nombre': forms.TextInput(attrs={'size': 50, 'required': True, 'title': 'Nombre del producto', 'class':'form-control'}),
+            'marca': forms.TextInput(attrs={'size': 80, 'required': True, 'title': 'Marca del fabricante', 'class':'form-control'}),
+            'categoria': forms.TextInput(attrs={'size': 50, 'required': True, 'class':'form-control'}),
+            'subcategoria': forms.TextInput(attrs={'size': 50, 'required': False, 'class':'form-control'}),
+            'precio': forms.TextInput(attrs={'required': False, 'class':'form-control'})
+        }

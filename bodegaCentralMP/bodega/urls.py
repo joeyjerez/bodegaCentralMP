@@ -19,5 +19,7 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('', index, name="home"),
+    path('', root),
+    path('bodega', index, name="home"),
+    path('bodega/login', login, name="login"),
 ]
