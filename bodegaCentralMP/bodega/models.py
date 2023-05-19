@@ -25,7 +25,7 @@ class Usuario(models.Model):
     apellido = models.CharField(max_length=20, verbose_name='Apellido', null=False)
     cargo = models.CharField(max_length=100, verbose_name='Cargo', null=False)
     correo = models.CharField(max_length=320, verbose_name='Correo', null=False)
-    password = models.CharField(max_length=256 ,verbose_name='Contraseña', null=False)
+    contraseña = models.CharField(max_length=256 ,verbose_name='Contraseña', null=False)
 
     class Meta:
         verbose_name='usuario'
@@ -38,15 +38,15 @@ class Usuario(models.Model):
 class Producto(models.Model):
     codigo = models.IntegerField(verbose_name='Codigo', null=False)
     nombre = models.CharField(max_length=50, verbose_name='Nombre', null=False)
+    descripcion = models.CharField(max_length=320, verbose_name='Descripción')
     marca = models.CharField(max_length=80, verbose_name='Marca', null=False)
-    categoria = models.CharField(max_length=50, verbose_name='Categoria', null=False, default='Todo')
-    subcategoria = models.CharField(max_length=50, verbose_name='Subcategoria', null=False, default='Todo')
     precio = models.IntegerField(verbose_name='Precio', null=False)
+    imagen = models.ImageField(verbose_name='Imagen', upload_to='productos', null=False)
 
     class Meta:
         verbose_name='producto'
         verbose_name_plural='productos'
-        ordering=['codigo']
+        ordering=['codigo', 'marca']
 
     def __str__(self):
         return self.nombre

@@ -66,23 +66,25 @@ class ProductoForm(ModelForm):
         
         fields = [
             'codigo',
-            'nombre',
+            'nombre',            
+            'descripcion',            
             'marca',
-            'categoria',
-            'subcategoria',
+            'imagen',
+            'precio',
         ]
         labels = {
             'codigo': 'Código',
             'nombre': 'Nombre',
+            'descripcion': 'Descripción',
             'marca': 'Marca',
-            'categoria': 'Categoría',
-            'subcategoria': 'Subcategoría',
+            'imagen': 'Imagen',
+            'precio': 'Precio',
         }
         widgets = {
             'codigo': forms.TextInput(attrs={'required': True, 'class':'form-control'}),
             'nombre': forms.TextInput(attrs={'size': 50, 'required': True, 'title': 'Nombre del producto', 'class':'form-control'}),
+            'descripcion': forms.TextInput(attrs={'size': 320, 'required': False, 'title': 'Descripción del producto', 'class':'form-control'}),
             'marca': forms.TextInput(attrs={'size': 80, 'required': True, 'title': 'Marca del fabricante', 'class':'form-control'}),
-            'categoria': forms.TextInput(attrs={'size': 50, 'required': True, 'class':'form-control'}),
-            'subcategoria': forms.TextInput(attrs={'size': 50, 'required': False, 'class':'form-control'}),
-            'precio': forms.TextInput(attrs={'required': False, 'class':'form-control'})
+            'imagen': forms.FileInput(attrs={'required': True, 'class':'form-control'}),
+            'precio': forms.TextInput(attrs={'required': False, 'type':'number', 'class':'form-control'})
         }
