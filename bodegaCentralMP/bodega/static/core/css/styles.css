@@ -3,7 +3,7 @@
 :root {
     --header-height: 3rem;
     --nav-width: 68px;
-    --first-color: #ffff64;
+    --first-color: #fcf819;
     --first-color-light: #AFA5D9;
     --white-color: #F7F6FB;
     --body-font: 'Nunito', sans-serif;
@@ -46,7 +46,7 @@ a {
 }
 
 .header_toggle {
-    color: var(--first-color);
+    color: #292919;
     font-size: 1.5rem;
     cursor: pointer
 }
@@ -99,11 +99,11 @@ a {
 
 .nav_logo-icon {
     font-size: 1.25rem;
-    color: var(--white-color)
+    color: #292919
 }
 
 .nav_logo-name {
-    color: var(--white-color);
+    color: #292919;
     font-weight: 700
 }
 
