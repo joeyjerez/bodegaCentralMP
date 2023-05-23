@@ -4,7 +4,8 @@
 import requests
 
 from django.http import HttpResponse
-from django.shortcuts import render 
+from django.shortcuts import render
+from django.template import RequestContext 
 
 
 def index(request):
@@ -33,3 +34,5 @@ def saludo(request):
         print(f'error; {e}')
 
     return HttpResponse("solicitud completada") 
+
+

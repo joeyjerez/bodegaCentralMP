@@ -25,3 +25,4 @@ urlpatterns = [
     path('api/saludo', views.saludo, name="saludo"),
     
 ]
+
