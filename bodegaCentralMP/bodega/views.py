@@ -10,6 +10,16 @@ from django.shortcuts import render
 def index(request):
     return render(request, 'core/home.html')
 
+def productos(request):
+    return render(request, 'core/productos.html')
+
+def usuarios(request):
+    return render(request, 'core/usuarios.html')
+
+
+
+
+
 def saludo(request):
     url = "http://musicpro.bemtorres.win/api/v1/test/saludo"
 

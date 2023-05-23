@@ -109,13 +109,13 @@ a {
 
 .nav_link {
     position: relative;
-    color: var(--first-color-light);
+    color: #292919;
     margin-bottom: 1.5rem;
     transition: .3s
 }
 
 .nav_link:hover {
-    color: var(--white-color)
+    color: #B0AE1C;
 }
 
 .nav_icon {
@@ -131,7 +131,7 @@ a {
 }
 
 .active {
-    color: var(--white-color)
+    color: #292919
 }
 
 .active::before {
