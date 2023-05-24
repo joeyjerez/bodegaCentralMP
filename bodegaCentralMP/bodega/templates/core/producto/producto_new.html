@@ -26,6 +26,9 @@
                     {{form.imagen}}
                 </div>
             </div>
+            {% if form.instance.foto %}
+                    <img width="100px" src="{{form.instance.foto.url}}" alt="">
+            {% endif %}
             <div class="form-group mb-3">
                 <label for="codigo" class="fw-bold">Código</label>
                 <div class="input-group">

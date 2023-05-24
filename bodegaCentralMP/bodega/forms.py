@@ -91,6 +91,6 @@ class ProductoForm(ModelForm):
             'stock': forms.TextInput(attrs={'required': True, 'title': 'Stock', 'type':'number', 'class':'form-control'}),
             'descripcion': forms.TextInput(attrs={'size': 320, 'required': False, 'title': 'Descripción del producto', 'default':'Sin descripción', 'class':'form-control'}),
             'marca': forms.TextInput(attrs={'size': 80, 'required': True, 'title': 'Marca del fabricante', 'class':'form-control'}),
-            'imagen': forms.FileInput(attrs={'required': True, 'class':'form-control'}),
+            'imagen': forms.FileInput(attrs={'class':'form-control'}),
             'precio': forms.TextInput(attrs={'required': False, 'type':'number','title':'Precio', 'class':'form-control'})
         }

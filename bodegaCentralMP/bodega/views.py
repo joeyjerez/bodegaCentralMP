@@ -5,7 +5,6 @@ import requests
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from .models import *
-from .views import *
 from .forms import *
 
 def root(request):

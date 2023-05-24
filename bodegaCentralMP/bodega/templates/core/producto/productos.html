@@ -34,7 +34,7 @@
                     <tbody>
                         {% for p in productos %}
                         <tr>
-                            <td>{{p.imagen.url}}</td>
+                            <td><img width="70px" src="{{p.imagen.url}}" alt="{{p.imagen}}"></td>
                             <td>{{p.codigo}}</td>
                             <td>{{p.nombre}}</td>
                             <td>{{p.stock}}</td>
@@ -42,8 +42,13 @@
                             <td>{{p.descripcion}}</td>
                             <td>{{p.precio}}</td>
                             <td>
-                                <a href="{% url 'productos_delete' %}" class="btn btn-danger mx-1">Eliminar</a>
-                                <a href="{% url 'productos_edit' %}" class="btn btn-secondary mx-1">Editar</a>
+                                <a class="btn btn-warning" href="/bodega/productos/{{p.codigo}}/edit">
+                                    Editar<i class="bi bi-pencil-square text-dark"></i>
+                                </a>
+                                <a class="btn btn-danger modal-borrar" data-bs-toggle="modal" 
+                                data-bs-target="#staticBackdrop" data-href="/bodega/productos/{{p.codigo}}/delete/">
+                                Eliminar<i class="bi bi-trash3"></i>
+                            </a>
                             </td>
                         </tr>
                         {% empty %}
@@ -72,15 +77,21 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" data-bs-dismiss="modal">No</button>
-                    <a href="#" id="confirmar-borrar" class="btn btn-danger">Si</a>
+                    <a href="#" id="delete" class="btn btn-danger">Si</a>
                 </div>
             </div>
         </div>
     </div>
 {% endblock %}
 
-    {% block scripts %}
-    <script src='https://rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js'></script>
-    <script
-        src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/extensions/export/bootstrap-table-export.js'></script>
-    {% endblock %}
+{% block scripts %}
+<script src='https://rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js'></script>
+<script
+    src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/extensions/export/bootstrap-table-export.js'></script>
+<script>
+    $('.modal-borrar').on('click',function() {
+        const href = $(this).attr('data-href');
+        $('#delete').attr('href',href);
+    })
+</script>
+{% endblock %}
