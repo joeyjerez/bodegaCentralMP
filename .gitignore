@@ -1,5 +1,5 @@
 #Carpeta Visual Studio Code
-.vs/
+.vscode/
 
 #pycache
 __pycache__/
