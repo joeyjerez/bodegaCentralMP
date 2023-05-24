@@ -1,0 +1,67 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Agregar Usuario{% endblock %}
+
+{% block content %}
+<div class="container mt-4 mb-4">
+    <div class="row">
+        {% if 'OK' in request.GET %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Usuario</strong> registrado correctamente.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% if 'FAIL' in request.GET %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Ha ocurrido un error.</strong> Inténtelo nuevamente más tarde.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group mb-3">
+                <label for="rut" class="fw-bold">RUT</label>
+                <div class="input-group">
+                    {{form.rut}}
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="nombre" class="fw-bold">Nombre</label>
+                <div class="input-group">
+                    {{form.nombre}}
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="apellido" class="fw-bold">Apellido</label>
+                <div class="input-group">
+                    {{form.apellido}}
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="cargo" class="fw-bold">Cargo</label>
+                <div class="input-group">
+                    {{form.cargo}}
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="correo" class="fw-bold">Correo</label>
+                <div class="input-group">
+                    {{form.correo}}
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="contrasena" class="fw-bold">Contraseña</label>
+                <div class="input-group">
+                    {{form.contrasena}}
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="{% url 'usuarios_list' %}" class="btn btn-danger me-5">Volver a Productos</a>
+                <input type="submit" class="btn btn-success btn-block py-2" id="add" value="Agregar">
+                <input type="reset" class="btn btn-warning btn-block py-2" id="clear" value="Borrar datos">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

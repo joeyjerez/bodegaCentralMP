@@ -24,36 +24,15 @@ function validaTiempo(i) {
 };
 /* Fin Función de hora actual */
 
-/* Función para contar caracteres */
-if (document.title === 'Contacto'){
-    const txta_coment = document.getElementById('txta-comentario');
-    const caracteres_res = document.getElementById('caracter');
-
-    txta_coment.addEventListener( 'input', function(i) {
-
-    const target = i.target;
-    const max_length = target.getAttribute('maxlength');
-    const live_length = target.value.length;
-
-    caracteres_res.innerHTML = `${live_length}/${max_length}`;
-});
-/* Fin Función para contar caracteres */
-
-/* Limpieza de selección de dropbox */
-function eliminarRecarga() {
-    document.getElementById('select-motivo').setAttribute("selected", "");    
-};
-/* Fin Limpieza de selección de dropbox */
-}
-
 /* Switch de Tema Oscuro */
 //// Declarando Elementos
 const htmlBody = document.body;
 const htmlCards = document.getElementsByClassName('card');
-const htmlTables = document.getElementById('lista-tablas');
+const htmlTables = document.getElementById('table');
 const htmlLinks = document.getElementsByClassName('link');
-const themeSwitch = document.querySelector('#flexSwitchCheckDefault');
+const themeSwitch = document.querySelector('#themeSwitch');
 
+//Cambiar tema claro a oscuro
 themeSwitch.addEventListener('click', () => {
     //Para cambiar el tema del fondo y las cards
     htmlBody.classList.toggle("dark-mode");

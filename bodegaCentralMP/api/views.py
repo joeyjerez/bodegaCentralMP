@@ -16,3 +16,6 @@ def saludo(request):
         print(f'Error: {e}')
     
     return HttpResponse("¡Saludo completado!")
+
+def productos(request):
+    pass
