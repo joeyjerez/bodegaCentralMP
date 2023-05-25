@@ -16,12 +16,18 @@ Including another URLconf
 """
 from django.urls import path
 
-from . import views
+from .views import *
 
 urlpatterns = [
-    path('', views.index, name="home"),
-    path('productos', views.productos, name="Productos"),
-    path('usuarios', views.usuarios, name="Usuarios"),
-    path('api/saludo', views.saludo, name="saludo"),
-    
+    path('', root),
+    path('bodega', index, name="home"),
+    path('bodega/login', login, name="login"),
+    path('bodega/productos', productos_list, name="productos_list"),
+    path('bodega/productos/new', productos_new, name="productos_new"),
+    path('bodega/productos/<int:codigo>/edit', productos_edit, name="productos_edit"),
+    path('bodega/productos/<int:codigo>/delete', productos_delete, name="productos_delete"),
+    path('bodega/usuarios', usuarios_list, name="usuarios_list"),
+    path('bodega/usuarios/new', usuarios_new, name="usuarios_new"),
+    path('bodega/usuarios/<str:rut>/edit', usuarios_edit, name="usuarios_edit"),
+    path('bodega/usuarios/<str:rut>/delete', usuarios_delete, name="usuarios_delete"),
 ]
