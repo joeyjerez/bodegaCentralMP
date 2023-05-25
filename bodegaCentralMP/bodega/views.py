@@ -96,7 +96,7 @@ def usuarios_list(request):
 
 def usuarios_new(request):
     if request.method == 'POST':
-        form = ProductoForm(request.POST)
+        form = UsuarioForm(request.POST)
         if form.is_valid():
             rut = form.cleaned_data.get("rut")
             nombre = form.cleaned_data.get("nombre")

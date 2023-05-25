@@ -46,8 +46,12 @@
                             <td>{{u.correo}}</td>
                             <td>{{u.contrasena}}</td>
                             <td>
-                                <a href="{% url 'usuarios_delete' %}" class="btn btn-danger mx-1">Eliminar</a>
-                                <a href="{% url 'usuarios_edit' %}" class="btn btn-secondary mx-1">Editar</a>
+                                <a class="btn btn-warning" href="/bodega/usuarios/{{u.rut}}/edit">
+                                    Editar <i class="bi bi-pencil-square text-dark"></i>
+                                </a>
+                                <a class="btn btn-danger modal-borrar" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop" data-href="/bodega/usuarios/{{u.rut}}/delete/">
+                                    Eliminar <i class="bi bi-trash3"></i>
                             </td>
                         </tr>
                         {% empty %}
@@ -81,4 +85,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+    {% endblock %}
