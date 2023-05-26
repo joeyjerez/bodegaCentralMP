@@ -19,4 +19,4 @@ Página de bodega para la solución de Music Pro
   * ```py manage.py runserver```
 * Abrir localhost en el navegador:
   * ```localhost:8000```
-* ¡Listo! :)
+## ¡Listo! :)
