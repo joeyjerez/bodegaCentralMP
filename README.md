@@ -10,7 +10,7 @@ Página de bodega para la solución de Music Pro
   * ```D:\ambiente\{nombre_ambiente}\Scripts\activate```
 * Descargar el proyecto
 * Abrir la ruta del proyecto en una terminal:
-  * ``...\bodegaCentralMP\```
+  * ```...\bodegaCentralMP\```
 * Instalar django y librerías:
   * ```pip install -r requirements.txt```
 * Entrar a la siguiente carpeta:
