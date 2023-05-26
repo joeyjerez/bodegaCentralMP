@@ -8,10 +8,10 @@ from .models import *
 from .forms import *
 
 def root(request):
-    return redirect('/home')
+    return redirect('/bodega')
 
 def index(request):
-    return render(request, 'core/index.html')
+    return render(request, 'core/home.html')
 
 def login(request):
     return render(request, 'core/login.html')
@@ -88,7 +88,7 @@ def productos_delete(request, codigo):
         producto.delete()
         return redirect(to= 'productos_list')
     except:
-        return redirect(reverse('productos_edit') + "?FAIL")
+        return redirect(reverse('productos_list') + "?FAIL")
 
 def usuarios_list(request):
     context = {'usuarios' : Usuario.objects.all()}
@@ -145,4 +145,4 @@ def usuarios_delete(request, rut):
         usuario.delete()
         return redirect(to= 'usuarios_list')
     except:
-        return redirect(reverse('usuarios_edit') + "?FAIL")
+        return redirect(reverse('usuarios_list') + "?FAIL")
