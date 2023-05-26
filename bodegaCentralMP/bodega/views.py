@@ -11,7 +11,7 @@ def root(request):
     return redirect('/home')
 
 def index(request):
-    return render(request, 'core/index.html')
+    return render(request, 'core/home.html')
 
 def login(request):
     return render(request, 'core/login.html')
