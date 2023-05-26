@@ -11,6 +11,7 @@ body {
     position: absolute;
     opacity: 50%;
   }
+  
 
   .container {
     position: absolute;
@@ -29,11 +30,11 @@ body {
     text-align: center;
   }
 
-  .form-group {
+  #form-group {
     margin-bottom: 15px;
   }
 
-  .form-group label {
+  #form-group label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
