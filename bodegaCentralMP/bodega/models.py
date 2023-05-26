@@ -42,7 +42,7 @@ class Producto(models.Model):
     stock = models.IntegerField(verbose_name='Stock', null=False, default=0)
     descripcion = models.CharField(max_length=400, verbose_name='Descripción')
     marca = models.CharField(max_length=80, verbose_name='Marca')
-    imagen = models.ImageField(verbose_name='Imagen', upload_to='productos', default='productos/default.png')
+    imagen = models.ImageField(verbose_name='Imagen', upload_to='productos')
     precio = models.IntegerField(verbose_name='Precio', null=False, default=0)
 
     class Meta:

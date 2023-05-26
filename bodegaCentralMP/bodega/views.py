@@ -21,7 +21,7 @@ def saludo(request):
     url = "https://musicpro.bemtorres.win/api/v1/test/saludo"
 
     try:
-        response = request.get(url)
+        response = requests.get(url)
         data = response.json()
 
         print(data['message'])

@@ -20,8 +20,8 @@ from django.conf import settings
 
 urlpatterns = [
     path('', include("bodega.urls")),
-    path('api/v1/', include("api.urls")),
-    path('admin/', admin.site.urls),
+    path('bodega/api/', include("api.urls")),
+    path('bodega/admin/', admin.site.urls),
 ]
 
 if settings.DEBUG:
