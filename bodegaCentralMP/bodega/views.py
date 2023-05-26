@@ -8,7 +8,7 @@ from .models import *
 from .forms import *
 
 def root(request):
-    return redirect('/bodega')
+    return redirect('/home')
 
 def index(request):
     return render(request, 'core/index.html')
