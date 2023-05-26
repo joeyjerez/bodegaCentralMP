@@ -1,0 +1,76 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Agregar Producto{% endblock %}
+
+{% block content %}
+<div class="container mt-4 mb-4">
+    <div class="row">
+        {% if 'OK' in request.GET %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Producto</strong> registrado correctamente.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% if 'FAIL' in request.GET %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Ha ocurrido un error.</strong> Inténtelo nuevamente más tarde.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group mb-3">
+                <label for="imagen" class="fw-bold">Producto</label>
+                <div class="input-group">
+                    {{form.imagen}}
+                </div>
+            </div>
+            {% if form.instance.foto %}
+                    <img width="100px" src="{{form.instance.foto.url}}" alt="">
+            {% endif %}
+            <div class="form-group mb-3">
+                <label for="codigo" class="fw-bold">Código</label>
+                <div class="input-group">
+                    {{form.codigo}}
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="nombre" class="fw-bold">Nombre</label>
+                <div class="input-group">
+                    {{form.nombre}}
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="stock" class="fw-bold">Stock</label>
+                <div class="input-group">
+                    {{form.stock}}
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="descripcion" class="fw-bold">Descripción</label>
+                <div class="input-group">
+                    {{form.descripcion}}
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="marca" class="fw-bold">Marca</label>
+                <div class="input-group">
+                    {{form.marca}}
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="precio" class="fw-bold">Precio (CLP$)</label>
+                <div class="input-group">
+                    {{form.precio}}
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="{% url 'productos_list' %}" class="btn btn-danger me-5">Volver a Productos</a>
+                <input type="submit" class="btn btn-success btn-block py-2" id="add" value="Agregar">
+                <input type="reset" class="btn btn-warning btn-block py-2" id="clear" value="Borrar datos">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
