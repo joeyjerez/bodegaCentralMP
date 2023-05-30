@@ -2,11 +2,6 @@
 
 {% load static %}
 
-{% block recursos %}
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.css'>
-<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.0.13/css/all.css'>
-{% endblock %}
-
 {% block title %}Producto{% endblock %}
 
 {% block content %}
@@ -85,10 +80,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script src='https://rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js'></script>
-<script
-    src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/extensions/export/bootstrap-table-export.js'></script>
-<script>
+<script type="text/javascript">
     $('.modal-borrar').on('click',function() {
         const href = $(this).attr('data-href');
         $('#delete').attr('href',href);

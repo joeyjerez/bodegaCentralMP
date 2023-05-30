@@ -1,5 +1,5 @@
 import requests
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http.response import JsonResponse
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
@@ -11,7 +11,7 @@ from .serializers import *
 # Create your views here.
 
 def root(request):
-    return redirect('productos/')
+    return redirect(producto_list)
 
 def saludo(request):
     url = "https://musicpro.bemtorres.win/api/v1/test/saludo"
