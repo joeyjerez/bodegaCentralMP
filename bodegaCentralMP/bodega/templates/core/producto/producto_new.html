@@ -9,18 +9,6 @@
 
         <h1 class="text-center">Agregar Producto</h1>
 
-        {% if 'OK' in request.GET %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Producto</strong> registrado correctamente.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endif %}
-        {% if 'FAIL' in request.GET %}
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>Ha ocurrido un error.</strong> Inténtelo nuevamente más tarde.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endif %}
         <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group mb-3">
@@ -67,7 +55,7 @@
             </div>
             <div class="text-center mt-4">
                 <a href="{% url 'productos_list' %}" class="btn btn-danger me-5">Volver a Productos</a>
-                <input type="submit" class="btn btn-success btn-block py-2" id="add" value="Agregar">
+                <input type="submit" class="btn btn-success btn-block py-2" id="submit" value="Agregar">
                 <input type="reset" class="btn btn-warning btn-block py-2" id="clear" value="Borrar datos">
             </div>
         </form>
