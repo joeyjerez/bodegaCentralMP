@@ -3,18 +3,38 @@
 # Create your views here.
 import requests
 from django.shortcuts import render, redirect, reverse
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from .models import *
 from .forms import *
 
+
+
 def root(request):
     return redirect('/bodega')
 
-def index(request):
-    return render(request, 'core/home.html')
+def login_view(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+        user = authenticate(request, username=email, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('index')
+        else:
+            error_message = 'Credenciales inválidas. Inténtalo nuevamente.'
+            return render(request, 'pages/login.html', {'error_message': error_message})
+    return render(request, 'pages/login.html')
 
-def login(request):
-    return render(request, 'core/login.html')
+def index_view(request):
+    if request.user.is_authenticated:
+        return render(request, 'pages/index.html')
+    else:
+        return redirect('login')
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
 
 def saludo(request):
     
