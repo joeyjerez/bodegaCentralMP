@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
 from bodega.views import login_view, index_view,logout_view
 
 urlpatterns = [
@@ -24,3 +25,7 @@ urlpatterns = [
     path('index/', index_view, name='index'),
     path('login/', logout_view, name='logout'),
 ]
+
+if settings.DEBUG:
+    from django.conf.urls.static import static
+    urlpatterns+= static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
