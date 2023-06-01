@@ -15,13 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import path, include
 from django.conf import settings
+from django.conf.urls.static import static
+from bodega.views import login_view, index,logout_view
 
 urlpatterns = [
     path('', include("bodega.urls")),
-    path('api/v1/', include("api.urls")),
-    path('admin/', admin.site.urls),
+    path('bodega/api/', include("api.urls")),
+    path('bodega/admin/', admin.site.urls),
+    path('login/', login_view, name='login'),
+    path('login/', logout_view, name='logout'),
 ]
 
 if settings.DEBUG:

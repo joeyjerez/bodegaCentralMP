@@ -4,86 +4,19 @@ from .models import *
 
 # Ingresar aquí las clases de la base de datos
 
-# Ejemplo:
-#
-# class MiembroForm(ModelForm):
-#     class Meta:
-#         model = Miembro
-#         fields = [
-#             'idMiembro',
-#             'nombre',
-#             'apellidos',
-#             'ocupacion',
-#             'correo',
-#             'foto'
-#         ]
-#         labels = {
-#             'idMiembro': 'ID Miembro',
-#             'nombre': 'Nombre',
-#             'apellidos': 'Apellidos',
-#             'ocupacion': 'Ocupación',
-#             'correo': 'Correo',
-#             'foto': 'Foto'
-#         }
-#         widgets = {
-#             'idMiembro': forms.TextInput(attrs={'class':'form-control','type':'number'}),
-#             'nombre': forms.TextInput(attrs={'class':'form-control'}),
-#             'apellidos': forms.TextInput(attrs={'class':'form-control'}),
-#             'ocupacion': forms.TextInput(attrs={'class':'form-control'}),
-#             'correo': forms.TextInput(attrs={'class':'form-control'}),
-#             'foto': forms.FileInput(attrs={'class':'form-control'})
-#         }
-
-class UsuarioForm(ModelForm):
-    class Meta:
-        model = Usuario
-        
-        fields = [
-            'rut',
-            'nombre',
-            'apellido',
-            'cargo',
-            'correo',
-            'contrasena',
-        ]
-        labels = {
-            'rut': 'RUT',
-            'nombre': 'Nombre',
-            'apellido': 'Apellido',
-            'cargo': 'Cargo',
-            'correo': 'Correo',
-            'contrasena': 'Contraseña',
-        }
-        widgets = {
-            'rut': forms.TextInput(attrs={'size':'21', 'class':'form-control'}),
-            'nombre': forms.TextInput(attrs={'size':'40', 'class':'form-control'}),
-            'apellido': forms.TextInput(attrs={'size':'40', 'class':'form-control'}),
-            'cargo': forms.TextInput(attrs={'size':'100', 'class':'form-control'}),
-            'correo': forms.TextInput(attrs={'size':'320', 'class':'form-control'}),
-            'contrasena': forms.TextInput(attrs={'class':'form-control'}),
-        }
-
 class ProductoForm(ModelForm):
     class Meta:
         model = Producto
         
-        fields = [
-            'codigo',
-            'nombre',            
-            'stock',            
-            'descripcion',            
-            'marca',
-            'imagen',
-            'precio',
-        ]
+        fields = '__all__'
         labels = {
             'codigo': 'Código',
             'nombre': 'Nombre',
             'stock': 'Stock',
             'descripcion': 'Descripción',
             'marca': 'Marca',
-            'imagen': 'Imagen',
             'precio': 'Precio',
+            'imagen': 'Imagen',
         }
         widgets = {
             'codigo': forms.TextInput(attrs={'required': True, 'type':'number','title':'Código de producto', 'class':'form-control'}),
@@ -91,6 +24,5 @@ class ProductoForm(ModelForm):
             'stock': forms.TextInput(attrs={'required': True, 'title': 'Stock', 'type':'number', 'class':'form-control'}),
             'descripcion': forms.TextInput(attrs={'size': 320, 'required': False, 'title': 'Descripción del producto', 'default':'Sin descripción', 'class':'form-control'}),
             'marca': forms.TextInput(attrs={'size': 80, 'required': True, 'title': 'Marca del fabricante', 'class':'form-control'}),
-            'imagen': forms.FileInput(attrs={'class':'form-control'}),
             'precio': forms.TextInput(attrs={'required': False, 'type':'number','title':'Precio', 'class':'form-control'})
         }
