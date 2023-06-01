@@ -91,5 +91,5 @@ def productos_delete(request, codigo):
     except:
         return redirect(reverse('productos_list') + "?FAIL")
 
-def usuarios_list(request):
+def admin_view(request):
     return redirect('admin/')
