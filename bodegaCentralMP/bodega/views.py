@@ -2,6 +2,7 @@
 
 # Create your views here.
 import requests
+from django.conf import settings
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from .models import *
@@ -91,58 +92,4 @@ def productos_delete(request, codigo):
         return redirect(reverse('productos_list') + "?FAIL")
 
 def usuarios_list(request):
-    context = {'usuarios' : Usuario.objects.all()}
-    return render(request, 'core/usuario/usuarios.html', context)
-
-def usuarios_new(request):
-    if request.method == 'POST':
-        form = UsuarioForm(request.POST)
-        if form.is_valid():
-            rut = form.cleaned_data.get("rut")
-            nombre = form.cleaned_data.get("nombre")
-            apellido = form.cleaned_data.get("apellido")
-            cargo = form.cleaned_data.get("cargo")
-            correo = form.cleaned_data.get("correo")
-            contrasena = form.cleaned_data.get("contrasena")
-            obj = Usuario.objects.create(
-                rut = rut,
-                nombre = nombre,
-                apellido = apellido,
-                cargo = cargo,
-                correo = correo,
-                contrasena = contrasena,
-            )
-            obj.save()
-            return redirect(reverse('usuarios_list') + "?OK")
-        else:
-            return redirect(reverse('usuarios_list') + "?FAIL")
-    else:
-        form = UsuarioForm
-    return render(request,'core/usuario/usuario_new.html',{'form':form})
-
-def usuarios_edit(request, rut):
-    try:
-        usuario = Usuario.objects.get(rut=rut)
-        if producto:
-            form = UsuarioForm(instance = usuario)
-        else:
-            return redirect(reverse('usuarios_list') + "?FAIL")
-    
-        if request.method == 'POST':
-            form = UsuarioForm(request.POST,request.FILES,instance=usuario)
-            if form.is_valid():
-                form.save()
-                return redirect(reverse('usuarios_list') + "?OK")
-            else:
-                return redirect(reverse('usuarios_edit') + rut)
-        return render(request,'core/usuario/usuario_edit.html',{'form':form})   
-    except:
-        return redirect(reverse('usuarios_list') + "?FAIL")
-
-def usuarios_delete(request, rut):
-    try:
-        usuario = Usuario.objects.get(rut=rut)
-        usuario.delete()
-        return redirect(to= 'usuarios_list')
-    except:
-        return redirect(reverse('usuarios_list') + "?FAIL")
+    return redirect('admin/')

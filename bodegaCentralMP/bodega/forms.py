@@ -4,35 +4,6 @@ from .models import *
 
 # Ingresar aquí las clases de la base de datos
 
-class UsuarioForm(ModelForm):
-    class Meta:
-        model = Usuario
-        
-        fields = [
-            'rut',
-            'nombre',
-            'apellido',
-            'cargo',
-            'correo',
-            'contrasena',
-        ]
-        labels = {
-            'rut': 'RUT',
-            'nombre': 'Nombre',
-            'apellido': 'Apellido',
-            'cargo': 'Cargo',
-            'correo': 'Correo',
-            'contrasena': 'Contraseña',
-        }
-        widgets = {
-            'rut': forms.TextInput(attrs={'size':'21', 'class':'form-control'}),
-            'nombre': forms.TextInput(attrs={'size':'40', 'class':'form-control'}),
-            'apellido': forms.TextInput(attrs={'size':'40', 'class':'form-control'}),
-            'cargo': forms.TextInput(attrs={'size':'100', 'class':'form-control'}),
-            'correo': forms.TextInput(attrs={'size':'320', 'class':'form-control'}),
-            'contrasena': forms.TextInput(attrs={'class':'form-control'}),
-        }
-
 class ProductoForm(ModelForm):
     class Meta:
         model = Producto
