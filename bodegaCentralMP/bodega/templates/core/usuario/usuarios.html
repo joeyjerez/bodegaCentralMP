@@ -85,4 +85,13 @@
             </div>
         </div>
     </div>
-    {% endblock %}
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+    $('.modal-borrar').on('click',function() {
+        const href = $(this).attr('data-href');
+        $('#delete').attr('href',href);
+    })
+</script>
+{% endblock %}
