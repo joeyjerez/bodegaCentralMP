@@ -67,4 +67,4 @@ def producto_detail(request):
     
     elif request.method == 'DELETE':
         producto.delete()
-        return Response({'mensaje':'¡El producto {} ha sido eliminado satisfactoriamente!'.format(codigo)},status=status.HTTP_204_NO_CONTENT)
+        return Response({'mensaje':'¡El producto con el código {} ha sido eliminado satisfactoriamente!'.format(codigo)},status=status.HTTP_204_NO_CONTENT)
