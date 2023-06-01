@@ -22,10 +22,10 @@ urlpatterns = [
     path('', root),
     path('saludo/', saludo, name="saludo"),
     path('bodega/login', login_view, name="login"),
-    path('bodega', index_view, name="index"),
+    path('bodega/', index, name="index"),
     path('bodega/productos', productos_list, name="productos_list"),
     path('bodega/productos/new', productos_new, name="productos_new"),
     path('bodega/productos/<int:codigo>/edit', productos_edit, name="productos_edit"),
     path('bodega/productos/<int:codigo>/delete', productos_delete, name="productos_delete"),
-    path('bodega/administrador', admin_view, name="admin_view"),
+    path('bodega/admin', admin_view, name="admin_view"),
 ]

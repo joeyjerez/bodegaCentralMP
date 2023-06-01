@@ -12,7 +12,7 @@ from .forms import *
 
 
 def root(request):
-    return redirect('/bodega')
+    return redirect(index)
 
 def login_view(request):
     if request.method == 'POST':
@@ -24,12 +24,12 @@ def login_view(request):
             return redirect('index')
         else:
             error_message = 'Credenciales inválidas. Inténtalo nuevamente.'
-            return render(request, 'pages/login.html', {'error_message': error_message})
-    return render(request, 'pages/login.html')
+            return render(request, 'core/login.html', {'error_message': error_message})
+    return render(request, 'core/login.html')
 
-def index_view(request):
+def index(request):
     if request.user.is_authenticated:
-        return render(request, 'pages/index.html')
+        return render(request, 'core/home.html')
     else:
         return redirect('login')
 
