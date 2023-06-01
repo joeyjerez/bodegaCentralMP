@@ -37,23 +37,15 @@ class ProductoForm(ModelForm):
     class Meta:
         model = Producto
         
-        fields = [
-            'codigo',
-            'nombre',            
-            'stock',            
-            'descripcion',            
-            'marca',
-            'imagen',
-            'precio',
-        ]
+        fields = '__all__'
         labels = {
             'codigo': 'Código',
             'nombre': 'Nombre',
             'stock': 'Stock',
             'descripcion': 'Descripción',
             'marca': 'Marca',
-            'imagen': 'Imagen',
             'precio': 'Precio',
+            'imagen': 'Imagen',
         }
         widgets = {
             'codigo': forms.TextInput(attrs={'required': True, 'type':'number','title':'Código de producto', 'class':'form-control'}),
@@ -61,6 +53,5 @@ class ProductoForm(ModelForm):
             'stock': forms.TextInput(attrs={'required': True, 'title': 'Stock', 'type':'number', 'class':'form-control'}),
             'descripcion': forms.TextInput(attrs={'size': 320, 'required': False, 'title': 'Descripción del producto', 'default':'Sin descripción', 'class':'form-control'}),
             'marca': forms.TextInput(attrs={'size': 80, 'required': True, 'title': 'Marca del fabricante', 'class':'form-control'}),
-            'imagen': forms.FileInput(attrs={'class':'form-control'}),
             'precio': forms.TextInput(attrs={'required': False, 'type':'number','title':'Precio', 'class':'form-control'})
         }

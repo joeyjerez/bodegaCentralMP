@@ -37,7 +37,7 @@ def productos_list(request):
 
 def productos_new(request):
     if request.method == 'POST':
-        form = ProductoForm(request.POST)
+        form = ProductoForm(request.POST, request.FILES)
         if form.is_valid():
             codigo = form.cleaned_data.get("codigo")
             nombre = form.cleaned_data.get("nombre")
@@ -72,7 +72,7 @@ def productos_edit(request, codigo):
             return redirect(reverse('productos_list') + "?FAIL")
     
         if request.method == 'POST':
-            form = ProductoForm(request.POST,request.FILES,instance=producto)
+            form = ProductoForm(request.POST or None, request.FILES or None, instance=producto)
             if form.is_valid():
                 form.save()
                 return redirect(reverse('productos_list') + "?OK")
