@@ -2,16 +2,23 @@
 
 {% load static %}
 
-{% block recursos %}
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.css'>
-<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.0.13/css/all.css'>
-{% endblock %}
-
 {% block title %}Producto{% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="row text-center my-4 mx-5">
+        {% if 'OK' in request.GET %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Producto</strong> guardado correctamente.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% if 'FAIL' in request.GET %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Ha ocurrido un error.</strong> Inténtelo nuevamente más tarde.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
         <h1>Lista de Productos</h1>
         <div class="col-lg-12 producto">
             <div class="container-fluid">
@@ -34,7 +41,11 @@
                     <tbody>
                         {% for p in productos %}
                         <tr>
+                            {% if p.imagen %}
                             <td><img width="70px" src="{{p.imagen.url}}" alt="{{p.imagen}}"></td>
+                            {% else %}
+                            <td><img width="70px" src="{% static 'core/img/default.png' %}" alt=""></td>
+                            {% endif %}
                             <td>{{p.codigo}}</td>
                             <td>{{p.nombre}}</td>
                             <td>{{p.stock}}</td>
@@ -85,10 +96,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script src='https://rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js'></script>
-<script
-    src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/extensions/export/bootstrap-table-export.js'></script>
-<script>
+<script type="text/javascript">
     $('.modal-borrar').on('click',function() {
         const href = $(this).attr('data-href');
         $('#delete').attr('href',href);

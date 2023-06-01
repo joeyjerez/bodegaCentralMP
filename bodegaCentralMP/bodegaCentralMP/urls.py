@@ -17,10 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf import settings
+from django.conf.urls.static import static
 from bodega.views import login_view, index_view,logout_view
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', include("bodega.urls")),
+    path('bodega/api/', include("api.urls")),
+    path('bodega/admin/', admin.site.urls),
     path('login/', login_view, name='login'),
     path('index/', index_view, name='index'),
     path('login/', logout_view, name='logout'),

@@ -6,4 +6,3 @@ from .models import *
 #
 # admin.site.register(Miembro)
 admin.site.register(Producto)
-admin.site.register(Usuario)

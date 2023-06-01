@@ -26,86 +26,86 @@ function validaTiempo(i) {
 
 /* Switch de Tema Oscuro */
 //// Declarando Elementos
-const htmlBody = document.body;
-const htmlCards = document.getElementsByClassName('card');
-const htmlTables = document.getElementById('table');
-const htmlLinks = document.getElementsByClassName('link');
-const themeSwitch = document.querySelector('#themeSwitch');
+// const htmlBody = document.body;
+// const htmlCards = document.getElementsByClassName('card');
+// const htmlTables = document.getElementById('table');
+// const htmlLinks = document.getElementsByClassName('link');
+// const themeSwitch = document.querySelector('#themeSwitch');
 
 //Cambiar tema claro a oscuro
-themeSwitch.addEventListener('click', () => {
-    //Para cambiar el tema del fondo y las cards
-    htmlBody.classList.toggle("dark-mode");
-    if (htmlCards != null) {
-        for (let i = 0; i < htmlCards.length; i++) {
-            htmlCards[i].classList.toggle("bg-dark");
-        }
-    }
+// themeSwitch.addEventListener('click', () => {
+//     //Para cambiar el tema del fondo y las cards
+//     htmlBody.classList.toggle("dark-mode");
+//     if (htmlCards != null) {
+//         for (let i = 0; i < htmlCards.length; i++) {
+//             htmlCards[i].classList.toggle("bg-dark");
+//         }
+//     }
 
-    if (htmlLinks != null) {
-        for (let i = 0; i < htmlLinks.length; i++) {
-            htmlLinks[i].classList.toggle("text-white");
-            htmlLinks[i].classList.toggle("text-dark");
-        }
-    }
+//     if (htmlLinks != null) {
+//         for (let i = 0; i < htmlLinks.length; i++) {
+//             htmlLinks[i].classList.toggle("text-white");
+//             htmlLinks[i].classList.toggle("text-dark");
+//         }
+//     }
 
-    if (htmlTables != null) {
-        htmlTables.classList.toggle("border-white");
-        htmlTables.classList.toggle("table-dark");
-    }
+//     if (htmlTables != null) {
+//         htmlTables.classList.toggle("border-white");
+//         htmlTables.classList.toggle("table-dark");
+//     }
 
-    //Para guardar el estado de tema entre páginas
-    if (htmlBody.classList.contains('dark-mode')) {
-        localStorage.setItem('dark-mode', 'true');
-    } else {
-        localStorage.setItem('dark-mode', 'false');
-    }
-})
+//     //Para guardar el estado de tema entre páginas
+//     if (htmlBody.classList.contains('dark-mode')) {
+//         localStorage.setItem('dark-mode', 'true');
+//     } else {
+//         localStorage.setItem('dark-mode', 'false');
+//     }
+// })
 
 //Verificador de estado de tema
-if (localStorage.getItem('dark-mode') === 'true') {
-    htmlBody.classList.add('dark-mode');
+// if (localStorage.getItem('dark-mode') === 'true') {
+//     htmlBody.classList.add('dark-mode');
 
-    if (htmlCards != null) {
-        for (let i = 0; i < htmlCards.length; i++) {
-            htmlCards[i].classList.add("bg-dark");
-        }
-    }
+//     if (htmlCards != null) {
+//         for (let i = 0; i < htmlCards.length; i++) {
+//             htmlCards[i].classList.add("bg-dark");
+//         }
+//     }
 
-    if (htmlLinks != null) {
-        for (let i = 0; i < htmlLinks.length; i++) {
-            htmlLinks[i].classList.remove("text-dark");
-            htmlLinks[i].classList.add("text-white");
-        }
-    }
+//     if (htmlLinks != null) {
+//         for (let i = 0; i < htmlLinks.length; i++) {
+//             htmlLinks[i].classList.remove("text-dark");
+//             htmlLinks[i].classList.add("text-white");
+//         }
+//     }
 
-    if (htmlTables != null) {
-        htmlTables.classList.add("border-white");
-        htmlTables.classList.add("table-dark");
-    }
+//     if (htmlTables != null) {
+//         htmlTables.classList.add("border-white");
+//         htmlTables.classList.add("table-dark");
+//     }
 
-    $(themeSwitch).prop('checked', true);
-} else {
-    htmlBody.classList.remove('dark-mode');
+//     $(themeSwitch).prop('checked', true);
+// } else {
+//     htmlBody.classList.remove('dark-mode');
 
-    if (htmlCards != null) {
-        for (let i = 0; i < htmlCards.length; i++) {
-            htmlCards[i].classList.remove("bg-dark");
-        }
-    }
+//     if (htmlCards != null) {
+//         for (let i = 0; i < htmlCards.length; i++) {
+//             htmlCards[i].classList.remove("bg-dark");
+//         }
+//     }
 
-    if (htmlLinks != null) {
-        for (let i = 0; i < htmlLinks.length; i++) {
-            htmlLinks[i].classList.remove("text-light");
-            htmlLinks[i].classList.add("text-dark");
-        }
-    }
+//     if (htmlLinks != null) {
+//         for (let i = 0; i < htmlLinks.length; i++) {
+//             htmlLinks[i].classList.remove("text-light");
+//             htmlLinks[i].classList.add("text-dark");
+//         }
+//     }
 
-    if (htmlTables != null) {
-        htmlTables.classList.remove("border-white");
-        htmlTables.classList.remove("table-dark");
-    }
+//     if (htmlTables != null) {
+//         htmlTables.classList.remove("border-white");
+//         htmlTables.classList.remove("table-dark");
+//     }
 
-    $(themeSwitch).prop('checked', false);
-}
+//     $(themeSwitch).prop('checked', false);
+// }
 /* Fin Switch de Tema Oscuro */
