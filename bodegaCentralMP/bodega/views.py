@@ -39,13 +39,10 @@ def index(request):
     else:
         return redirect('login')
 
-<<<<<<< HEAD
 def error404(request):
     return render(request, 'core/404.html')
 
-=======
 @login_required
->>>>>>> 5a8536e8ce19c788b2737d052ab23ef66d13ea48
 def logout_view(request):
     logout(request)
     return redirect('login')
