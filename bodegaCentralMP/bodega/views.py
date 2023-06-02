@@ -12,12 +12,10 @@ from .forms import *
 
 
 def root(request):
-<<<<<<< HEAD
     return redirect('/bodega')
 
 def index(request):
     return render(request, 'core/home.html')
-=======
     return redirect(index)
 
 def login_view(request):
@@ -38,7 +36,6 @@ def index(request):
         return render(request, 'core/home.html')
     else:
         return redirect('login')
->>>>>>> c519abf4c9add9c57071298cf6680b107f31b71e
 
 def logout_view(request):
     logout(request)
@@ -118,7 +115,6 @@ def productos_delete(request, codigo):
     except:
         return redirect(reverse('productos_list') + "?FAIL")
 
-<<<<<<< HEAD
 def usuarios_list(request):
     context = {'usuarios' : Usuario.objects.all()}
     return render(request, 'core/usuario/usuarios.html', context)
@@ -175,7 +171,5 @@ def usuarios_delete(request, rut):
         return redirect(to= 'usuarios_list')
     except:
         return redirect(reverse('usuarios_list') + "?FAIL")
-=======
 def admin_view(request):
     return redirect('admin/')
->>>>>>> c519abf4c9add9c57071298cf6680b107f31b71e

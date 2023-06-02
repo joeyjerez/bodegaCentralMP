@@ -20,14 +20,9 @@ from .views import *
 
 urlpatterns = [
     path('', root),
-<<<<<<< HEAD
-    path('bodega', index, name="index"),
-    path('bodega/login', login, name="login"),
-=======
     path('saludo/', saludo, name="saludo"),
     path('bodega/login', login_view, name="login"),
     path('bodega/', index, name="index"),
->>>>>>> c519abf4c9add9c57071298cf6680b107f31b71e
     path('bodega/productos', productos_list, name="productos_list"),
     path('bodega/productos/new', productos_new, name="productos_new"),
     path('bodega/productos/<int:codigo>/edit', productos_edit, name="productos_edit"),

@@ -18,12 +18,14 @@
 }
 
 body {
+    background-color: #F7F6FB;
     position: relative;
     margin: var(--header-height) 0 0 0;
     padding: 0 1rem;
     font-family: var(--body-font);
     font-size: var(--normal-font-size);
     transition: .5s
+    
 }
 
 a {
@@ -40,7 +42,7 @@ a {
     align-items: center;
     justify-content: space-between;
     padding: 0 1rem;
-    background-color: var(--white-color);
+
     z-index: var(--z-fixed);
     transition: .5s
 }
@@ -109,6 +111,13 @@ a {
 
 .nav_link {
     position: relative;
+    color: #292919;
+    margin-bottom: 1.5rem;
+    transition: .3s
+}
+
+#logout.nav_link {
+    position: bottom;
     color: #292919;
     margin-bottom: 1.5rem;
     transition: .3s

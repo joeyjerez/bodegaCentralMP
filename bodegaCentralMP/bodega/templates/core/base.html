@@ -11,13 +11,9 @@
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
-<<<<<<< HEAD
 
   <link rel="stylesheet" href="{% static 'core/css/styles.css' %}">
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-
-=======
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 
   <link rel="stylesheet" href="{% static 'core/css/styles.css' %}" type="text/css">
@@ -26,7 +22,6 @@
 
   <link rel="icon" href="{% static 'core/img/cardboard-box.svg' %}" type="image/x-icon">
 
->>>>>>> c519abf4c9add9c57071298cf6680b107f31b71e
   <title>{% block title %}{% endblock %} | Bodega Central</title>
 
 </head>
@@ -46,20 +41,12 @@
           <!--Listado de links-->
           <a href="{% url 'productos_list' %}" class="nav_link active"> <i class='bx bx-store-alt nav_icon'></i> <span
               class="nav_name">Productos</span></a>
-<<<<<<< HEAD
-          <a href="{% url 'usuarios_list' %}" class="nav_link active"> <i class='bx bx-user nav_icon'></i> <span
-              class="nav_name">Usuarios</span></a>
-        </div>
-      </div>
-      <a href="#" class="nav_link"><i class='bx bx-log-out nav_icon'></i> <span class="nav_name">Cerrar
-=======
           <a href="{% url 'admin_view' %}" class="nav_link active"> <i class='bx bx-user nav_icon'></i> <span
               class="nav_name">Administrador</span></a>
         </div>
       </div>
-      <a href="{% url 'logout' %}" class="nav_link"><i class='bx bx-log-out nav_icon'></i> <span class="nav_name">Cerrar
->>>>>>> c519abf4c9add9c57071298cf6680b107f31b71e
-          Sesión</span></a>
+      <a href="{% url 'logout' %}" class="nav_link" id="logout"><i class='bx bx-log-out nav_icon'></i> <span 
+        class="nav_name">Cerrar Sesión</span></a>
     </nav>
   </div>
   <!--Container Main start-->
