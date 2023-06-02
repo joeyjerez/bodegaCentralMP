@@ -47,15 +47,15 @@ def producto_list(request):
         return Response({'mensaje':'¡{} productos han sido eliminados de la base de datos!'.format(cantidad[0])},status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def producto_detail(request):
+def producto_detail(request, codigo):
     try:
         producto = Producto.objects.get(codigo=codigo)
     except:
-        return Response({'mensaje':'El producto no existe'},status=status.HTTP_404_NOT_FOUND)
+        return Response({'mensaje':'El producto con código {} no existe'.format(codigo)},status=status.HTTP_404_NOT_FOUND)
     
     if request.method == 'GET':
-        productos_serializer = ProductoSerializer(producto)
-        return Response(productos_serializer.data)
+        producto_serializer = ProductoSerializer(producto)
+        return Response(producto_serializer.data)
 
     elif request.method == 'PUT':
         producto_data = JSONParser().parse(request)

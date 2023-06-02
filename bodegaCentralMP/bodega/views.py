@@ -8,15 +8,16 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from .models import *
 from .forms import *
+from django.contrib.auth.decorators import login_required
 
-
-
+@login_required
 def root(request):
     return redirect('/bodega')
 
+@login_required
 def index(request):
     return render(request, 'core/home.html')
-    return redirect(index)
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -31,18 +32,24 @@ def login_view(request):
             return render(request, 'core/login.html', {'error_message': error_message})
     return render(request, 'core/login.html')
 
+@login_required
 def index(request):
     if request.user.is_authenticated:
         return render(request, 'core/home.html')
     else:
         return redirect('login')
 
+<<<<<<< HEAD
 def error404(request):
     return render(request, 'core/404.html')
 
+=======
+@login_required
+>>>>>>> 5a8536e8ce19c788b2737d052ab23ef66d13ea48
 def logout_view(request):
     logout(request)
     return redirect('login')
+
 
 def saludo(request):
     
@@ -59,10 +66,12 @@ def saludo(request):
     
     return HttpResponse("¡Saludo completado!")
 
+@login_required
 def productos_list(request):
     context = {'productos' : Producto.objects.all()}
     return render(request, 'core/producto/productos.html', context)
 
+@login_required
 def productos_new(request):
     if request.method == 'POST':
         form = ProductoForm(request.POST, request.FILES)
@@ -91,6 +100,7 @@ def productos_new(request):
         form = ProductoForm
     return render(request,'core/producto/producto_new.html',{'form':form})
 
+@login_required
 def productos_edit(request, codigo):
     try:
         producto = Producto.objects.get(codigo=codigo)
@@ -110,6 +120,7 @@ def productos_edit(request, codigo):
     except:
         return redirect(reverse('productos_list') + "?FAIL")
 
+@login_required
 def productos_delete(request, codigo):
     try:
         producto = Producto.objects.get(codigo=codigo)
@@ -118,10 +129,12 @@ def productos_delete(request, codigo):
     except:
         return redirect(reverse('productos_list') + "?FAIL")
 
+@login_required
 def usuarios_list(request):
     context = {'usuarios' : Usuario.objects.all()}
     return render(request, 'core/usuario/usuarios.html', context)
 
+@login_required
 def usuarios_new(request):
     if request.method == 'POST':
         form = UsuarioForm(request.POST)
@@ -148,6 +161,7 @@ def usuarios_new(request):
         form = UsuarioForm
     return render(request,'core/usuario/usuario_new.html',{'form':form})
 
+@login_required
 def usuarios_edit(request, rut):
     try:
         usuario = Usuario.objects.get(rut=rut)
@@ -167,6 +181,7 @@ def usuarios_edit(request, rut):
     except:
         return redirect(reverse('usuarios_list') + "?FAIL")
 
+@login_required
 def usuarios_delete(request, rut):
     try:
         usuario = Usuario.objects.get(rut=rut)
@@ -174,5 +189,7 @@ def usuarios_delete(request, rut):
         return redirect(to= 'usuarios_list')
     except:
         return redirect(reverse('usuarios_list') + "?FAIL")
+    
+@login_required 
 def admin_view(request):
     return redirect('admin/')
