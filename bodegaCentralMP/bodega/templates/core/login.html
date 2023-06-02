@@ -14,7 +14,7 @@
         <h2>Iniciar sesión</h2>
         <form method="POST" class="user" action="{% url 'login' %}">
             {% csrf_token %}
-            <label for="email">Email:</label>
+            <label for="email">Usuario:</label>
             <br>
             <input class="inputs" type="text" id="email" name="email" required>
             <br>
