@@ -22,6 +22,7 @@ urlpatterns = [
     path('', root),
     path('saludo/', saludo, name="saludo"),
     path('bodega/login', login_view, name="login"),
+    path('bodega/404', error404, name="error404"),
     path('bodega/', index, name="index"),
     path('bodega/productos', productos_list, name="productos_list"),
     path('bodega/productos/new', productos_new, name="productos_new"),

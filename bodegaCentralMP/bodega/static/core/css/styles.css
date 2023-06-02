@@ -28,6 +28,18 @@ body {
     
 }
 
+#boton-volver {
+    background-color: #fcf819;
+    border: #fcf819;
+    color: black;
+}
+
+#boton-volver:hover {
+    background-color: #B0AE1C;
+    border: #B0AE1C;
+    color: black;
+}
+
 a {
     text-decoration: none
 }
@@ -189,3 +201,4 @@ a {
         padding-left: calc(var(--nav-width) + 188px)
     }
 }
+

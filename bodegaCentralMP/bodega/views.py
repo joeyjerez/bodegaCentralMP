@@ -37,6 +37,9 @@ def index(request):
     else:
         return redirect('login')
 
+def error404(request):
+    return render(request, 'core/404.html')
+
 def logout_view(request):
     logout(request)
     return redirect('login')
