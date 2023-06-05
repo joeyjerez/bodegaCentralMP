@@ -1,0 +1,19 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Sucursales{% endblock title %}
+
+{% block content %}
+<form action="" method="POST">
+    {% csrf_token %}
+    <div class="form-row align-items-center">
+        {{ form.as_p}}
+    </div>
+
+    <div class="text-center">
+        <a href="{% url 'sucursal_list' %}" class="btn btn-danger me-5">Volver a Sucursales</a>
+        <input type="submit" class="btn btn-success btn-block py-2" id="submit" value="Agregar">
+        <input type="reset" class="btn btn-warning btn-block py-2" id="clear" value="Borrar datos"> 
+    </div>
+</form>
+{% endblock content %}

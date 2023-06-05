@@ -13,20 +13,6 @@ from .serializers import *
 def root(request):
     return redirect(producto_list)
 
-def saludo(request):
-    url = "https://musicpro.bemtorres.win/api/v1/test/saludo"
-
-    try:
-        response = requests.get(url)
-        data = response.json()
-
-        print(data['message'])
-
-    except requests.exceptions.RequestException as e:
-        print(f'Error: {e}')
-    
-    return HttpResponse("¡Saludo completado!")
-
 @api_view(['GET', 'POST', 'DELETE'])
 def producto_list(request, format=None):
     if request.method == 'GET':

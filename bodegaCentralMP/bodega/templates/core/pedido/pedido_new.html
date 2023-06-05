@@ -1,0 +1,110 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Agregar Pedido{% endblock title %}
+
+{% block content %}
+<form action="" method="POST">
+    {% csrf_token %}
+    <!-- {{ form.as_p }} -->
+    <div class="row mx-5">
+        <div class="col">
+            <div class="form-group mb-3">
+                <label for="id_pedido" class="fw-bold">ID Pedido</label>
+                {{form.id_pedido}}
+
+                <label for="sucursal" class="fw-bold">Sucursal</label>
+                {{form.sucursal}}
+
+                <div class="row">
+                    <div class="col">
+                        <label for="productos" class="fw-bold">Productos</label>
+                        <div class="input-group">
+                            {{form.productos}}
+                            <button id="agregar-producto" class="btn btn-outline-success" type="button">Agregar</button>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="estado" class="fw-bold">Estado</label>
+                        {{form.estado}}
+                    </div>
+                </div>
+            </div>
+            <div class="col text-center">
+                <div class="btn-group" role="group">
+                    <input type="submit" class="btn btn-success btn-block py-auto" id="submit" value="Guardar Pedido">
+                    <input type="reset" class="btn btn-warning btn-block py-auto" id="clear" value="Borrar datos">
+                    <a href="{% url 'pedidos_list' %}" class="btn btn-danger py-auto px-auto">Volver a Productos</a>
+                </div>
+            </div>
+            <h2>Productos agregados:</h2>
+            <div id="scroll" class="container mx-1"></div>
+            <ul id="productos-agregados" class="list-group"></ul>
+            <br>
+            <h2>Total del Pedido: $<span id="total-pedido">0</span></h2>
+        </div>
+    </div>
+    </div>
+</form>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+
+        var productosAgregados = {};
+        var preciosProductos = {};
+
+        $('#agregar-producto').click(function (e) {
+            e.preventDefault();
+            var productoId = $('#productos').val();
+            var productoNombre = $('#productos option:selected').text();
+            var productoPrecio = parseInt($('#productos option:selected').data('precio'));
+
+            if (productosAgregados.hasOwnProperty(productoId)) {
+                productosAgregados[productoId]++;
+                $('#cantidad-' + productoId).text(productosAgregados[productoId]);
+                var subtotal = productoPrecio * productosAgregados[productoId];
+                $('#subtotal-' + productoId).text(subtotal.toFixed(2))
+            } else {
+                productosAgregados[productoId] = 1;
+                preciosProductos[productoId] = productoPrecio;
+                var listItem = '<div class="row"><div class=col-md-6><li class="list-group-item d-flex justify-content-between">' + productoNombre;
+                listItem += ' (<span id="cantidad-' + productoId + '">1</span>)';
+                listItem += '<input type="hidden" name="productos[]" value="' + productoId + '">';
+                listItem += '<button class="btn btn-danger eliminar-producto" type="button">Eliminar</button></li></div>';
+                $('#productos-agregados').append(listItem);
+            }
+
+            calcularTotalPedido();
+        });
+
+        $(document).on('click', '.eliminar-producto', function () {
+            var productoId = $(this).prev('input').val();
+            productosAgregados[productoId]--;
+            if (productosAgregados[productoId] <= 0) {
+                delete productosAgregados[productoId];
+                delete preciosProductos[productoId];
+                $(this).parent('li').remove();
+            } else {
+                $('#cantidad-' + productoId).text(productosAgregados[productoId]);
+                var subtotal = preciosProductos[productoId] * productosAgregados[productoId];
+                $('#subtotal-' + productoId).text(subtotal.toFixed(2));
+            }
+
+            calcularTotalPedido();
+        });
+
+        function calcularTotalPedido() {
+                var totalPedido = 0;
+                for (var productoId in productosAgregados) {
+                    var cantidad = productosAgregados[productoId];
+                    var precio = preciosProductos[productoId];
+                    var subtotal = cantidad * precio;
+                    totalPedido += subtotal;
+                }
+                $('#total-pedido').text(totalPedido.toFixed(2));
+        }
+    });
+</script>
+{% endblock %}

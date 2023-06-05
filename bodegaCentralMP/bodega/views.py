@@ -111,5 +111,111 @@ def productos_delete(request, codigo):
     except:
         return redirect(reverse('productos_list') + "?FAIL")
 
+def sucursal_list(request):
+    context = {'sucursales' : Sucursal.objects.all()}
+    return render(request, 'core/sucursal/sucursales.html', context)
+
+def sucursal_new(request):
+    if request.method == 'POST':
+        form = SucursalForm(request.POST)
+        if form.is_valid():
+            id_sucursal = form.cleaned_data.get("id_sucursal")
+            nombre = form.cleaned_data.get("nombre")
+            direccion = form.cleaned_data.get("direccion")
+            obj = Sucursal.objects.create(
+                id_sucursal = id_sucursal,
+                nombre = nombre,
+                direccion = direccion
+            )
+            obj.save()
+            return redirect(reverse('sucursal_list') + "?OK")
+        else:
+            return redirect(reverse('sucursal_list') + "?FAIL")
+    else:
+        form = SucursalForm
+    return render(request,'core/sucursal/sucursal_new.html',{'form':form})
+
+def sucursal_edit(request, id_sucursal):
+    try:
+        sucursal = Sucursal.objects.get(id_sucursal=id_sucursal)
+        if sucursal:
+            form = SucursalForm(instance = sucursal)
+        else:
+            return redirect(reverse('sucursales_list') + "?FAIL")
+    
+        if request.method == 'POST':
+            form = ProductoForm(request.POST or None, instance=producto)
+            if form.is_valid():
+                form.save()
+                return redirect(reverse('sucursales_list') + "?OK")
+            else:
+                return redirect(reverse('sucursales_edit') + id_sucursal)
+        return render(request,'core/sucursal/sucursal_edit.html',{'form':form})   
+    except:
+        return redirect(reverse('sucursales_list') + "?FAIL")
+
+def sucursal_delete(request, id_sucursal):
+    try:
+        sucursal = Sucursal.objects.get(id_sucursal=id_sucursal)
+        sucursal.delete()
+        return redirect(to= 'sucursales_list')
+    except:
+        return redirect(reverse('sucursales_list') + "?FAIL")
+
+def pedidos_list(request):
+    context = {'pedidos' : Pedido.objects.all()}
+    return render(request, 'core/pedido/pedidos.html', context)
+
+def pedidos_new(request):
+    if request.method == 'POST':
+        form = PedidoForm(request.POST)
+        if form.is_valid():
+            pedido = Pedido.objects.create()
+            id_pedido = form.cleaned_data['id_pedido']
+            sucursal = form.cleaned_data['sucursal']
+            productos = form.cleaned_data['productos']
+            cantidades = form.cleaned_data['cantidad']
+            for producto, cantidad in zip(productos, cantidad):
+                ItemPedido.objects.create(producto=producto, pedido=pedido, cantidad=cantidad)
+            return redirect(pedidos_list, pedido_id=pedido.id)
+    else:
+        form = PedidoForm()
+    return render(request, 'core/pedido/pedido_new.html', {'form': form})
+
+def pedidos_detalle(request, pedido_id):
+    try:
+        pedido = Pedido.objects.get(id = pedido_id)
+        productos = ProductoPedido.objects.filter(pedido=pedido)
+        return render(request, 'core/pedido/pedido_detalle.html', {'pedido':pedido, 'productos':productos})
+    except:
+        return render(redirect(pedidos_list))
+
+def pedidos_edit(request, id_pedido):
+    try:
+        pedido = Pedido.objects.get(id_pedido=id_pedido)
+        if producto:
+            form = PedidoForm(instance = pedido)
+        else:
+            return redirect(reverse('pedidos_list') + "?FAIL")
+    
+        if request.method == 'POST':
+            form = PedidoForm(request.POST or None, instance=pedido)
+            if form.is_valid():
+                form.save()
+                return redirect(reverse('pedidos_list') + "?OK")
+            else:
+                return redirect(reverse('pedidos_edit') + id_pedido)
+        return render(request,'core/pedido/pedido_edit.html',{'form':form})   
+    except:
+        return redirect(reverse('pedidos_list') + "?FAIL")
+
+def pedidos_delete(request, id_pedido):
+    try:
+        pedido = Pedido.objects.get(id_pedido=id_pedido)
+        pedido.delete()
+        return redirect(to= 'pedidos_list')
+    except:
+        return redirect(reverse('pedidos_list') + "?FAIL")
+
 def admin_view(request):
     return redirect('admin/')
