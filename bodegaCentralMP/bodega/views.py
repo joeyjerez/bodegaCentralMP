@@ -126,11 +126,12 @@ def productos_delete(request, codigo):
     except:
         return redirect(reverse('productos_list') + "?FAIL")
 
-@login_required 
+@login_required
 def sucursal_list(request):
     context = {'sucursales' : Sucursal.objects.all()}
     return render(request, 'core/sucursal/sucursales.html', context)
 
+@login_required
 def sucursal_new(request):
     if request.method == 'POST':
         form = SucursalForm(request.POST)
@@ -151,6 +152,7 @@ def sucursal_new(request):
         form = SucursalForm
     return render(request,'core/sucursal/sucursal_new.html',{'form':form})
 
+@login_required
 def sucursal_edit(request, id_sucursal):
     try:
         sucursal = Sucursal.objects.get(id_sucursal=id_sucursal)
@@ -170,6 +172,7 @@ def sucursal_edit(request, id_sucursal):
     except:
         return redirect(reverse('sucursales_list') + "?FAIL")
 
+@login_required
 def sucursal_delete(request, id_sucursal):
     try:
         sucursal = Sucursal.objects.get(id_sucursal=id_sucursal)
@@ -182,6 +185,7 @@ def pedidos_list(request):
     context = {'pedidos' : Pedido.objects.all()}
     return render(request, 'core/pedido/pedidos.html', context)
 
+@login_required
 def pedidos_new(request):
     if request.method == 'POST':
         form = PedidoForm(request.POST)
@@ -198,6 +202,7 @@ def pedidos_new(request):
         form = PedidoForm()
     return render(request, 'core/pedido/pedido_new.html', {'form': form})
 
+@login_required
 def pedidos_detalle(request, pedido_id):
     try:
         pedido = Pedido.objects.get(id = pedido_id)
@@ -206,6 +211,7 @@ def pedidos_detalle(request, pedido_id):
     except:
         return render(redirect(pedidos_list))
 
+@login_required
 def pedidos_edit(request, id_pedido):
     try:
         pedido = Pedido.objects.get(id_pedido=id_pedido)
@@ -225,6 +231,7 @@ def pedidos_edit(request, id_pedido):
     except:
         return redirect(reverse('pedidos_list') + "?FAIL")
 
+@login_required
 def pedidos_delete(request, id_pedido):
     try:
         pedido = Pedido.objects.get(id_pedido=id_pedido)
