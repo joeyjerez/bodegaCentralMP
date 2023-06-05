@@ -8,11 +8,16 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from .models import *
 from .forms import *
+from django.contrib.auth.decorators import login_required
 
-
-
+@login_required
 def root(request):
-    return redirect(index)
+    return redirect('/bodega')
+
+@login_required
+def index(request):
+    return render(request, 'core/home.html')
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -27,15 +32,21 @@ def login_view(request):
             return render(request, 'core/login.html', {'error_message': error_message})
     return render(request, 'core/login.html')
 
+@login_required
 def index(request):
     if request.user.is_authenticated:
         return render(request, 'core/home.html')
     else:
         return redirect('login')
 
+def error404(request):
+    return render(request, 'core/404.html')
+
+@login_required
 def logout_view(request):
     logout(request)
     return redirect('login')
+
 
 def saludo(request):
     
@@ -52,10 +63,12 @@ def saludo(request):
     
     return HttpResponse("¡Saludo completado!")
 
+@login_required
 def productos_list(request):
     context = {'productos' : Producto.objects.all()}
     return render(request, 'core/producto/productos.html', context)
 
+@login_required
 def productos_new(request):
     if request.method == 'POST':
         form = ProductoForm(request.POST, request.FILES)
@@ -84,6 +97,7 @@ def productos_new(request):
         form = ProductoForm
     return render(request,'core/producto/producto_new.html',{'form':form})
 
+@login_required
 def productos_edit(request, codigo):
     try:
         producto = Producto.objects.get(codigo=codigo)
@@ -103,6 +117,7 @@ def productos_edit(request, codigo):
     except:
         return redirect(reverse('productos_list') + "?FAIL")
 
+@login_required
 def productos_delete(request, codigo):
     try:
         producto = Producto.objects.get(codigo=codigo)
@@ -111,6 +126,7 @@ def productos_delete(request, codigo):
     except:
         return redirect(reverse('productos_list') + "?FAIL")
 
+@login_required 
 def sucursal_list(request):
     context = {'sucursales' : Sucursal.objects.all()}
     return render(request, 'core/sucursal/sucursales.html', context)
