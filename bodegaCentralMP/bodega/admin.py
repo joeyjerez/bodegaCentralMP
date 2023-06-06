@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Producto
+from .models import *
     
 class ProductoAdmin(admin.ModelAdmin):
     def has_module_permission(self, request):

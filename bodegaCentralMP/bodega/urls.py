@@ -29,6 +29,7 @@ urlpatterns = [
     path('bodega/productos/<int:codigo>/edit', productos_edit, name="productos_edit"),
     path('bodega/productos/<int:codigo>/delete', productos_delete, name="productos_delete"),
     path('bodega/pedidos', pedidos_list, name="pedidos_list"),
+    path('bodega/pedidos/<int:id_pedido>', pedidos_detalle, name="pedidos_detalle"),
     path('bodega/pedidos/new', pedidos_new, name="pedidos_new"),
     path('bodega/pedidos/<int:id_pedido>/edit', pedidos_edit, name="pedidos_edit"),
     path('bodega/pedidos/<int:id_pedido>/delete', pedidos_delete, name="pedidos_delete"),

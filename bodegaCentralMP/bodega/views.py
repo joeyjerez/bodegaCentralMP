@@ -47,7 +47,6 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
-
 def saludo(request):
     
     url = "https://musicpro.bemtorres.win/api/v1/test/saludo"
@@ -188,26 +187,37 @@ def pedidos_list(request):
 @login_required
 def pedidos_new(request):
     if request.method == 'POST':
-        form = PedidoForm(request.POST)
-        if form.is_valid():
-            pedido = Pedido.objects.create()
-            id_pedido = form.cleaned_data['id_pedido']
-            sucursal = form.cleaned_data['sucursal']
-            productos = form.cleaned_data['productos']
-            cantidades = form.cleaned_data['cantidad']
-            for producto, cantidad in zip(productos, cantidad):
-                ItemPedido.objects.create(producto=producto, pedido=pedido, cantidad=cantidad)
-            return redirect(pedidos_list, pedido_id=pedido.id)
+        id_pedido = request.POST.get('id_pedido')
+        sucursal_id = request.POST.get('sucursal')
+        productos = request.POST.getlist('productos[]')
+        estado = request.POST.get('estado')
+        total = request.POST.get('total-pedido')
+        
+        sucursal = Sucursal.objects.get(id_sucursal=sucursal_id)
+        pedido = Pedido.objects.create(id_pedido=id_pedido, sucursal=sucursal, estado=estado, total=total)
+        pedido.save()
+
+        for producto_id in productos:
+            producto = Producto.objects.get(id=producto_id)
+            cantidad = request.POST.get('cantidad-' + producto_id)
+            subtotal = producto.precio * int(cantidad)
+            pedidoProducto = DetallePedido.objects.create(pedido=pedido, producto=producto, cantidad=cantidad, subtotal=subtotal)
+
+        return redirect(reverse(pedidos_list) + "?OK")
     else:
-        form = PedidoForm()
-    return render(request, 'core/pedido/pedido_new.html', {'form': form})
+        productos = Producto.objects.all()
+        sucursales = Sucursal.objects.all()
+        context = {
+            'productos': productos,
+            'sucursales': sucursales,
+        }
+    return render(request, 'core/pedido/pedido_new.html', context)
 
 @login_required
-def pedidos_detalle(request, pedido_id):
+def pedidos_detalle(request, id_pedido):
     try:
-        pedido = Pedido.objects.get(id = pedido_id)
-        productos = ProductoPedido.objects.filter(pedido=pedido)
-        return render(request, 'core/pedido/pedido_detalle.html', {'pedido':pedido, 'productos':productos})
+        pedido = Pedido.objects.get(id_pedido = id_pedido)
+        return render(request, 'core/pedido/pedido_detalle.html', {'pedido':pedido})
     except:
         return render(redirect(pedidos_list))
 

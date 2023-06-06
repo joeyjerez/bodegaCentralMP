@@ -1,32 +1,61 @@
 {% extends 'core/base.html' %}
-{% load static %}
+{% load static humanize %}
 
 {% block title %}Agregar Pedido{% endblock title %}
 
 {% block content %}
+<h1 class="text-center">Agregar Pedido</h1>
+<br>
 <form action="" method="POST">
     {% csrf_token %}
     <!-- {{ form.as_p }} -->
     <div class="row mx-5">
         <div class="col">
             <div class="form-group mb-3">
-                <label for="id_pedido" class="fw-bold">ID Pedido</label>
-                {{form.id_pedido}}
-
-                <label for="sucursal" class="fw-bold">Sucursal</label>
-                {{form.sucursal}}
-
                 <div class="row">
-                    <div class="col">
-                        <label for="productos" class="fw-bold">Productos</label>
+                    <div class="col-4">
                         <div class="input-group">
-                            {{form.productos}}
-                            <button id="agregar-producto" class="btn btn-outline-success" type="button">Agregar</button>
+                            <span class="input-group-text fw-bold">ID Pedido</span>
+                            <input type="number" title="ID Pedido" class="form-control">
                         </div>
                     </div>
-                    <div class="col">
-                        <label for="estado" class="fw-bold">Estado</label>
-                        {{form.estado}}
+                    <div class="col-4">
+                        <div class="input-group">
+                            <span class="input-group-text fw-bold">Sucursal</span>
+                            <select name="sucursal" id="sucursal" class="form-select">
+                                <option value="default">-----------</option>
+                                {% for s in sucursales %}
+                                <option value="{{s.id_sucursal}}">{{s.nombre}} - {{s.direccion}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="input-group">
+                            <span class="input-group-text fw-bold">Estado de Pedido</span>
+                            <select name="estado" id="estado" class="form-select">
+                                <option value="pend" selected onselect="">Pendiente</option>
+                                <option value="envi">Enviado</option>
+                                <option value="comp">Completado</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row justify-content-center">
+                    <div class="col-8">
+                        <div class="input-group">
+                            <span class="input-group-text fw-bold">Seleccione un producto:</span>
+                            <select name="producto" id="producto" class="form-select">
+                                {% for p in productos %}
+                                <option value="{{ p.codigo }}" data-precio="{{ p.precio }}">
+                                    #{{p.codigo}} - {{ p.nombre}} - {{ p.marca }} - ${{ p.precio|intcomma:False }}
+                                </option>
+                                {% endfor %}
+                            </select>
+
+                            <button id="agregar-producto" class="btn btn-outline-success" type="button">Agregar</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -37,74 +66,22 @@
                     <a href="{% url 'pedidos_list' %}" class="btn btn-danger py-auto px-auto">Volver a Productos</a>
                 </div>
             </div>
-            <h2>Productos agregados:</h2>
-            <div id="scroll" class="container mx-1"></div>
-            <ul id="productos-agregados" class="list-group"></ul>
             <br>
-            <h2>Total del Pedido: $<span id="total-pedido">0</span></h2>
+            <h3>Productos agregados:</h3>
+            <div class="container mx-1">
+                <div class="row justify-content-center">
+                    <div class="col-8 text-center">
+                        <ul id="productos-agregados" class="list-group"></ul>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <h2>Total del Pedido: <span id="total-pedido">$0</span></h2>
         </div>
-    </div>
     </div>
 </form>
 {% endblock content %}
 
 {% block scripts %}
-<script>
-    $(document).ready(function () {
-
-        var productosAgregados = {};
-        var preciosProductos = {};
-
-        $('#agregar-producto').click(function (e) {
-            e.preventDefault();
-            var productoId = $('#productos').val();
-            var productoNombre = $('#productos option:selected').text();
-            var productoPrecio = parseInt($('#productos option:selected').data('precio'));
-
-            if (productosAgregados.hasOwnProperty(productoId)) {
-                productosAgregados[productoId]++;
-                $('#cantidad-' + productoId).text(productosAgregados[productoId]);
-                var subtotal = productoPrecio * productosAgregados[productoId];
-                $('#subtotal-' + productoId).text(subtotal.toFixed(2))
-            } else {
-                productosAgregados[productoId] = 1;
-                preciosProductos[productoId] = productoPrecio;
-                var listItem = '<div class="row"><div class=col-md-6><li class="list-group-item d-flex justify-content-between">' + productoNombre;
-                listItem += ' (<span id="cantidad-' + productoId + '">1</span>)';
-                listItem += '<input type="hidden" name="productos[]" value="' + productoId + '">';
-                listItem += '<button class="btn btn-danger eliminar-producto" type="button">Eliminar</button></li></div>';
-                $('#productos-agregados').append(listItem);
-            }
-
-            calcularTotalPedido();
-        });
-
-        $(document).on('click', '.eliminar-producto', function () {
-            var productoId = $(this).prev('input').val();
-            productosAgregados[productoId]--;
-            if (productosAgregados[productoId] <= 0) {
-                delete productosAgregados[productoId];
-                delete preciosProductos[productoId];
-                $(this).parent('li').remove();
-            } else {
-                $('#cantidad-' + productoId).text(productosAgregados[productoId]);
-                var subtotal = preciosProductos[productoId] * productosAgregados[productoId];
-                $('#subtotal-' + productoId).text(subtotal.toFixed(2));
-            }
-
-            calcularTotalPedido();
-        });
-
-        function calcularTotalPedido() {
-                var totalPedido = 0;
-                for (var productoId in productosAgregados) {
-                    var cantidad = productosAgregados[productoId];
-                    var precio = preciosProductos[productoId];
-                    var subtotal = cantidad * precio;
-                    totalPedido += subtotal;
-                }
-                $('#total-pedido').text(totalPedido.toFixed(2));
-        }
-    });
-</script>
+<script src="{% static 'core/js/pedido_new.js' %}"></script>
 {% endblock %}

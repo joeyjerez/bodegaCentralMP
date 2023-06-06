@@ -48,17 +48,12 @@ class Pedido(models.Model):
     envi = "Enviado"
     compl = "Completado"
 
-    LISTA_ESTADOS = [
-        (pend, 'Pendiente'),
-        (envi, 'Enviado'),
-        (compl, 'Completado')
-    ]
-
     id_pedido = models.CharField(max_length=9, unique=True, verbose_name='ID Pedido', null=False)
     fecha_pedido = models.DateField(verbose_name='Fecha del Pedido', auto_now_add=True)
-    sucursal= models.ForeignKey(Sucursal, on_delete= models.CASCADE, null=False)
-    productos = models.ManyToManyField(Producto, through='ProductoPedido')
-    estado= models.CharField(max_length=10, choices=LISTA_ESTADOS, verbose_name='Estado', default=pend, null=False)
+    sucursal = models.ForeignKey(Sucursal, on_delete= models.CASCADE, null=False)
+    productos = models.ManyToManyField(Producto, through='DetallePedido')
+    estado = models.CharField(max_length=10, verbose_name='Estado', default=pend, null=False)
+    total = models.DecimalField(max_digits=14, decimal_places=2, default=0, verbose_name='Total del Pedido')
 
     class Meta:
         verbose_name='pedido'
@@ -66,12 +61,13 @@ class Pedido(models.Model):
         ordering=['id_pedido']
     
     def __str__(self):
-        return f"Pedido #{self.id_pedido}"
+        return f"Pedido #{self.id_pedido} - {self.sucursal}"
 
-class ProductoPedido(models.Model):
+class DetallePedido(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
-    cantidad = models.PositiveIntegerField(default=1, null=False)
+    cantidad = models.PositiveIntegerField(default=1)
+    subtotal = models.DecimalField(max_digits=14, decimal_places=2, default=0)
 
     def __str__(self):
-        return f"{self.cantidad}x {self.producto.nombre} en {self.pedido.__str__()}"
+        return f"Pedido #{self.pedido.id_pedido} {self.id}"
