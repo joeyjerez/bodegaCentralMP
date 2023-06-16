@@ -8,15 +8,16 @@ $(document).ready(function () {
         var productoId = $('#producto').val();
         var productoNombre = $('#producto option:selected').text();
         var productoPrecio = parseInt($('#producto option:selected').data('precio'));
+        var cantidad = parseInt($('#cantidad').val());
 
         if (productosAgregados.hasOwnProperty(productoId)) {
-            productosAgregados[productoId].cantidad++;
+            productosAgregados[productoId].cantidad += cantidad;
             $('#cantidad-' + productoId).text(productosAgregados[productoId].cantidad);
         } else {
             productosAgregados[productoId] = {
                 nombre: productoNombre,
                 precio: productoPrecio,
-                cantidad: 1,
+                cantidad: cantidad,
                 subtotal: 0
             };
             var listItem = '';
@@ -24,6 +25,7 @@ $(document).ready(function () {
             listItem +=     productoNombre + ' (<span id="cantidad-' + productoId + '">1</span>)';
             listItem +=     ' --> Subtotal:  <span id="subtotal-' + productoId + '"></span>';
             listItem += '   <input type="hidden" name="productos[]" value="' + productoId + '">';
+            listItem += '   <input type="hidden" name="cantidad-'+ productoId +'" value="'+ productosAgregados[productoId].cantidad + '">';
             listItem += '   <button class="btn btn-danger eliminar-producto" type="button" data-producto-id="'+ productoId +'">Eliminar</button>';
             listItem += '   <button class="btn btn-danger eliminar-todos" type="button" data-producto-id="'+ productoId +'">Eliminar todos</button>';
             listItem += '   </li>';
@@ -36,8 +38,10 @@ $(document).ready(function () {
 
     $(document).on('click', '.eliminar-producto', function () {
         var productoId = $(this).data('producto-id');
-        productosAgregados[productoId].cantidad--;
-        $('#cantidad-' + productoId).text(productosAgregados[productoId].cantidad);
+        var cantidad = parseInt($('#cantidad').val());
+
+        productosAgregados[productoId].cantidad -= cantidad;
+        $('#cantidad-' + productoId).text(productosAgregados[productoId].cantidad);        $('#cantidad-' + productoId).text(productosAgregados[productoId].cantidad);
         if (productosAgregados[productoId].cantidad === 0) {
             delete productosAgregados[productoId];
             $('#producto-' + productoId).remove();
@@ -76,5 +80,6 @@ $(document).ready(function () {
         } else {
             $('#total-pedido').text(formatoMoneda(totalPedido));
         }
+        $('#input-total-pedido').val(totalPedido);
     };
 });

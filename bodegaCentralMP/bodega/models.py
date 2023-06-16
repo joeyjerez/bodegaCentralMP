@@ -12,7 +12,7 @@ class Producto(models.Model):
     #     (reaco, "Reacondicionado")
     # ]
 
-    codigo = models.IntegerField(verbose_name='Codigo', null=False, unique=True)
+    codigo = models.IntegerField(primary_key=True, verbose_name='Codigo', null=False, unique=True)
     nombre = models.CharField(max_length=50, verbose_name='Nombre', null=False)
     # estado = models.CharField(max_length=5, choices=LISTA_CONDICION, default=nuevo)
     stock = models.IntegerField(verbose_name='Stock', null=False, default=0)
@@ -30,7 +30,7 @@ class Producto(models.Model):
         return self.nombre + " - ${:0,.0f}".format(self.precio)
 
 class Sucursal(models.Model):
-    id_sucursal = models.IntegerField(verbose_name='ID Sucursal', unique=True)
+    id_sucursal = models.IntegerField(primary_key=True, verbose_name='ID Sucursal', unique=True)
     nombre = models.CharField(verbose_name='Nombre de Sucursal', null=False, max_length=150)
     direccion = models.CharField(verbose_name='Dirección', null=False, max_length=120)
 
@@ -48,7 +48,7 @@ class Pedido(models.Model):
     envi = "Enviado"
     compl = "Completado"
 
-    id_pedido = models.CharField(max_length=9, unique=True, verbose_name='ID Pedido', null=False)
+    id_pedido = models.CharField(primary_key=True, max_length=9, unique=True)
     fecha_pedido = models.DateField(verbose_name='Fecha del Pedido', auto_now_add=True)
     sucursal = models.ForeignKey(Sucursal, on_delete= models.CASCADE, null=False)
     productos = models.ManyToManyField(Producto, through='DetallePedido')

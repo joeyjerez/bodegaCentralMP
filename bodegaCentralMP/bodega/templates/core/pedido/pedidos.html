@@ -25,11 +25,13 @@
                     <div class="text-start my-4 mx-5">
                         <a href="{% url 'pedidos_new' %}" class="btn btn-success">Agregar Pedido</a>
                     </div>
-                    <thead>
+                    <thead class="sticky-top">
                         <tr>
                             <th scope="col" class="fw-bold">ID Pedido</th>
                             <th scope="col" class="fw-bold">Fecha de Solicitud</th>
-                            <th scope="col" class="fw-bold">Sucursal</th>
+                            <th scope="col" class="fw-bold">Sucursal</th>                  
+                            <th scope="col" class="fw-bold">Estado</th>                  
+                            <th scope="col" class="fw-bold">Acciones</th>                        
                         </tr>
                     </thead>
                     <tbody>
@@ -39,14 +41,15 @@
                             <td>{{p.fecha_pedido}}</td>
                             <td>{{p.sucursal}}</td>
                             <td>{{p.estado}}</td>
-                            <td>{{p.Acciones}}</td>
                             <td>
                                 <div class="align-items-center">
+                                    <a class="btn btn-primary" href="/bodega/pedidos/{{p.id_pedido}}">
+                                        Detalles<i class="bi bi-rock text-dark"></i>
+                                    </a>
                                     <a class="btn btn-warning" href="/bodega/pedidos/{{p.id_pedido}}/edit">
                                         Editar<i class="bi bi-pencil-square text-dark"></i>
                                     </a>
-                                    <a class="btn btn-danger modal-borrar" data-bs-toggle="modal" 
-                                    data-bs-target="#staticBackdrop" data-href="/bodega/pedidos/{{p.id_pedido}}/delete">
+                                    <a class="btn btn-danger" href="/bodega/pedidos/{{p.id_pedido}}/delete">
                                     Eliminar<i class="bi bi-trash3"></i></a>
                                 </div>
                             </td>
@@ -58,27 +61,6 @@
                         {% endfor %}
                     </tbody>
                 </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog text-dark">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Atención</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <h6 class="modal-title">¿Estás seguro que deseas eliminar el pedido seleccionado?<br>
-                        <strong>Este proceso no se puede deshacer.</strong>
-                    </h6>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">No</button>
-                    <a href="#" id="delete" class="btn btn-danger">Si</a>
-                </div>
             </div>
         </div>
     </div>

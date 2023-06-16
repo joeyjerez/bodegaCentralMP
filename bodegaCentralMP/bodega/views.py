@@ -180,6 +180,7 @@ def sucursal_delete(request, id_sucursal):
     except:
         return redirect(reverse('sucursales_list') + "?FAIL")
 
+@login_required
 def pedidos_list(request):
     context = {'pedidos' : Pedido.objects.all()}
     return render(request, 'core/pedido/pedidos.html', context)
@@ -187,24 +188,31 @@ def pedidos_list(request):
 @login_required
 def pedidos_new(request):
     if request.method == 'POST':
-        id_pedido = request.POST.get('id_pedido')
+
+        id_pedido = request.POST.get('pedido')
+        # print(id_pedido)
         sucursal_id = request.POST.get('sucursal')
+        # print(sucursal_id)
         productos = request.POST.getlist('productos[]')
+        # print(productos)
         estado = request.POST.get('estado')
+        # print(estado)
         total = request.POST.get('total-pedido')
+        # print(total)
         
         sucursal = Sucursal.objects.get(id_sucursal=sucursal_id)
         pedido = Pedido.objects.create(id_pedido=id_pedido, sucursal=sucursal, estado=estado, total=total)
         pedido.save()
 
         for producto_id in productos:
-            producto = Producto.objects.get(id=producto_id)
-            cantidad = request.POST.get('cantidad-' + producto_id)
-            subtotal = producto.precio * int(cantidad)
+            producto = Producto.objects.get(codigo=producto_id)
+            cantidad = int(request.POST.get('cantidad-' + producto_id))
+            subtotal = producto.precio * cantidad
             pedidoProducto = DetallePedido.objects.create(pedido=pedido, producto=producto, cantidad=cantidad, subtotal=subtotal)
-
+            pedidoProducto.save()
         return redirect(reverse(pedidos_list) + "?OK")
     else:
+
         productos = Producto.objects.all()
         sucursales = Sucursal.objects.all()
         context = {
@@ -217,7 +225,15 @@ def pedidos_new(request):
 def pedidos_detalle(request, id_pedido):
     try:
         pedido = Pedido.objects.get(id_pedido = id_pedido)
-        return render(request, 'core/pedido/pedido_detalle.html', {'pedido':pedido})
+        detalle = DetallePedido.objects.filter(pedido_id = id_pedido)
+        productos = Producto.objects.all()
+        print(detalle)
+        return render(request, 'core/pedido/pedido_detalle.html',
+        {
+            'pedido':pedido,
+            'detalle':detalle,
+            'productos':productos,
+        })
     except:
         return render(redirect(pedidos_list))
 
@@ -249,6 +265,29 @@ def pedidos_delete(request, id_pedido):
         return redirect(to= 'pedidos_list')
     except:
         return redirect(reverse('pedidos_list') + "?FAIL")
+
+#Agregar sólo código dentro del método a la vista "pedidos_new"?????
+# def carrito(request, id_pedido):
+#     carrito = Carrito.objects.filter(pedido = id_pedido)
+#     contador = Carrito.objects.count()
+
+#     datos = {
+#         'pedido': id_pedido,
+#         'productos': carrito,
+#         'cantidad': contador,
+#         'total': 0,
+#         'contar': 0,
+#     }
+    
+#     for producto in carrito:
+#         datos['subtotal'] = round(carrito.producto.precio * carrito.producto.cantidad)
+#         datos['total'] += round(carrito.producto.precio * carrito.producto.cantidad)
+
+#     if request.method == 'POST':
+#         for i in carrito:
+#             pedido = Pedido.objects.create()
+
+#             pedido.id_pedido
 
 def admin_view(request):
     return redirect('admin/')

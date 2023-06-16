@@ -16,7 +16,7 @@
                     <div class="col-4">
                         <div class="input-group">
                             <span class="input-group-text fw-bold">ID Pedido</span>
-                            <input type="number" title="ID Pedido" class="form-control">
+                            <input name="pedido" type="number" title="ID Pedido" class="form-control">
                         </div>
                     </div>
                     <div class="col-4">
@@ -34,16 +34,16 @@
                         <div class="input-group">
                             <span class="input-group-text fw-bold">Estado de Pedido</span>
                             <select name="estado" id="estado" class="form-select">
-                                <option value="pend" selected onselect="">Pendiente</option>
-                                <option value="envi">Enviado</option>
-                                <option value="comp">Completado</option>
+                                <option value="Pendiente" selected onselect="">Pendiente</option>
+                                <option value="Enviado">Enviado</option>
+                                <option value="Completado">Completado</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <br>
                 <div class="row justify-content-center">
-                    <div class="col-8">
+                    <div class="col-10">
                         <div class="input-group">
                             <span class="input-group-text fw-bold">Seleccione un producto:</span>
                             <select name="producto" id="producto" class="form-select">
@@ -53,6 +53,8 @@
                                 </option>
                                 {% endfor %}
                             </select>
+                            <span class="input-group-text">Cantidad:</span>
+                            <input type="number" id="cantidad" name="cantidad" value="1" class="form-control">
 
                             <button id="agregar-producto" class="btn btn-outline-success" type="button">Agregar</button>
                         </div>
@@ -76,7 +78,8 @@
                 </div>
             </div>
             <br>
-            <h2>Total del Pedido: <span id="total-pedido">$0</span></h2>
+            <h2>Total del Pedido: <span id="total-pedido" name="total">$0</span></h2>
+            <input type="hidden" name="total-pedido" id="input-total-pedido" value="0">
         </div>
     </div>
 </form>

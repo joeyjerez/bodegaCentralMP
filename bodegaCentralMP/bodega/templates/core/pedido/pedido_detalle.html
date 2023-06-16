@@ -1,8 +1,35 @@
 {% extends 'core/base.html' %}
-{% load static %}
+{% load static humanize %}
 
-{% block title %}Pedido #{{ pedido.pedido_id }}{% endblock title %}
+{% block title %}Pedido #{{ pedido.id_pedido }}{% endblock title %}
 
 {% block content %}
+<h1 class="fw-bold">Pedido #{{ pedido.id_pedido }} - {{ pedido.sucursal }}</h1>
+<br>
+<h2 class="fw-bold">Productos</h2>
+<div class="container-fluid">
+    <table class="table table-hover table-bordered border-dark table-striped">
+        <thead>
+            <tr>
+                <th scope="col" class="fw-bold">Productos</th>
+                <th scope="col" class="fw-bold">Cantidad</th>
+                <th scope="col" class="fw-bold">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in detalle %}
+            <tr>
+                <td>{{d.productos}}</td>
+                <td>{{d.cantidad}}</td>
+                <td>${{d.subtotal | intcomma:False}}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td class="text-center fw-bold" colspan="4">ME VOY A CONVERTIR EN EL GUASÓN AAAAAAAAAAAAAAAAAAAAAAAAAA</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 {% endblock content %}
