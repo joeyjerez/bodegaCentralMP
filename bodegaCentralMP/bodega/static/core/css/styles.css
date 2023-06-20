@@ -210,3 +210,9 @@ a {
 textarea {
     resize: none;
 }
+
+.table-wrapper {
+    max-height: 500px;
+    overflow: auto;
+    display:inline-block;
+  }

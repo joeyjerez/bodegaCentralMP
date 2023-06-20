@@ -57,6 +57,18 @@ class PedidoForm(ModelForm):
             'estado': forms.Select(attrs={'title':'Estado','class':'form-select'})
             # 'cantidad': forms.TextInput(attrs={'required':True,'type':'number','title':'Cantidad','class':'form-control'}),
         }
+    
+    # def clean_pedido(self):
+    #     try:
+    #         p = Pedido.objects.get(id_pedido = self.cleaned_data['id_pedido'])
+    #         if not self.instance.pk:
+    #             raise forms.ValidationError("Ya existe el número de pedido.")
+    #         elif self.instance.pk != p.pk:
+    #             raise forms.ValidationError("Modificación no permitida. El número de pedido ya existe.")
+    #     except Pedido.DoesNotExist:
+    #         pass
+    #     return self.cleaned_data
+
 
 # class PedidoForm(forms.Form):
 #     id_pedido = forms.IntegerField(min_value=1)

@@ -20,12 +20,12 @@
         {% endif %}
         <h1>Lista de Pedidos</h1>
         <div class="col-lg-12 pedido">
-            <div class="container-fluid">
+            <div class="text-start my-4 mx-5">
+                <a href="{% url 'pedidos_new' %}" class="btn btn-success">Agregar Pedido</a>
+            </div>
+            <div class="container-fluid table-wrapper">
                 <table id="table" class="table table-hover table-bordered border-dark table-striped">
-                    <div class="text-start my-4 mx-5">
-                        <a href="{% url 'pedidos_new' %}" class="btn btn-success">Agregar Pedido</a>
-                    </div>
-                    <thead class="sticky-top">
+                    <thead>
                         <tr>
                             <th scope="col" class="fw-bold">ID Pedido</th>
                             <th scope="col" class="fw-bold">Fecha de Solicitud</th>
@@ -46,9 +46,9 @@
                                     <a class="btn btn-primary" href="/bodega/pedidos/{{p.id_pedido}}">
                                         Detalles<i class="bi bi-rock text-dark"></i>
                                     </a>
-                                    <a class="btn btn-warning" href="/bodega/pedidos/{{p.id_pedido}}/edit">
+                                    <!-- <a class="btn btn-warning" href="/bodega/pedidos/{{p.id_pedido}}/edit">
                                         Editar<i class="bi bi-pencil-square text-dark"></i>
-                                    </a>
+                                    </a> -->
                                     <a class="btn btn-danger" href="/bodega/pedidos/{{p.id_pedido}}/delete">
                                     Eliminar<i class="bi bi-trash3"></i></a>
                                 </div>

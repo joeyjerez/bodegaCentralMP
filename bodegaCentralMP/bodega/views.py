@@ -158,27 +158,27 @@ def sucursal_edit(request, id_sucursal):
         if sucursal:
             form = SucursalForm(instance = sucursal)
         else:
-            return redirect(reverse('sucursales_list') + "?FAIL")
+            return redirect(reverse('sucursal_list') + "?FAIL")
     
         if request.method == 'POST':
-            form = ProductoForm(request.POST or None, instance=producto)
+            form = SucursalForm(request.POST or None, instance = sucursal)
             if form.is_valid():
                 form.save()
-                return redirect(reverse('sucursales_list') + "?OK")
+                return redirect(reverse('sucursal_list') + "?OK")
             else:
-                return redirect(reverse('sucursales_edit') + id_sucursal)
+                return redirect(reverse('sucursal_edit') + id_sucursal)
         return render(request,'core/sucursal/sucursal_edit.html',{'form':form})   
     except:
-        return redirect(reverse('sucursales_list') + "?FAIL")
+        return redirect(reverse('sucursal_list') + "?FAIL")
 
 @login_required
 def sucursal_delete(request, id_sucursal):
     try:
         sucursal = Sucursal.objects.get(id_sucursal=id_sucursal)
         sucursal.delete()
-        return redirect(to= 'sucursales_list')
+        return redirect(to= 'sucursal_list')
     except:
-        return redirect(reverse('sucursales_list') + "?FAIL")
+        return redirect(reverse('sucursal_list') + "?FAIL")
 
 @login_required
 def pedidos_list(request):
@@ -227,35 +227,39 @@ def pedidos_detalle(request, id_pedido):
         pedido = Pedido.objects.get(id_pedido = id_pedido)
         detalle = DetallePedido.objects.filter(pedido_id = id_pedido)
         productos = Producto.objects.all()
-        print(detalle)
+        total = 0
+        for p in detalle:
+            total += p.subtotal
+
         return render(request, 'core/pedido/pedido_detalle.html',
         {
             'pedido':pedido,
             'detalle':detalle,
             'productos':productos,
+            'total':total,
         })
     except:
         return render(redirect(pedidos_list))
 
-@login_required
-def pedidos_edit(request, id_pedido):
-    try:
-        pedido = Pedido.objects.get(id_pedido=id_pedido)
-        if producto:
-            form = PedidoForm(instance = pedido)
-        else:
-            return redirect(reverse('pedidos_list') + "?FAIL")
+# @login_required
+# def pedidos_edit(request, id_pedido):
+#     try:
+#         pedido = Pedido.objects.get(id_pedido=id_pedido)
+#         if producto:
+#             form = PedidoForm(instance = pedido)
+#         else:
+#             return redirect(reverse('pedidos_list') + "?FAIL")
     
-        if request.method == 'POST':
-            form = PedidoForm(request.POST or None, instance=pedido)
-            if form.is_valid():
-                form.save()
-                return redirect(reverse('pedidos_list') + "?OK")
-            else:
-                return redirect(reverse('pedidos_edit') + id_pedido)
-        return render(request,'core/pedido/pedido_edit.html',{'form':form})   
-    except:
-        return redirect(reverse('pedidos_list') + "?FAIL")
+#         if request.method == 'POST':
+#             form = PedidoForm(request.POST or None, instance=pedido)
+#             if form.is_valid():
+#                 form.save()
+#                 return redirect(reverse('pedidos_list') + "?OK")
+#             else:
+#                 return redirect(reverse('pedidos_edit') + id_pedido)
+#         return render(request,'core/pedido/pedido_edit.html',{'form':form})   
+#     except:
+#         return redirect(reverse('pedidos_list') + "?FAIL")
 
 @login_required
 def pedidos_delete(request, id_pedido):
@@ -265,29 +269,6 @@ def pedidos_delete(request, id_pedido):
         return redirect(to= 'pedidos_list')
     except:
         return redirect(reverse('pedidos_list') + "?FAIL")
-
-#Agregar sólo código dentro del método a la vista "pedidos_new"?????
-# def carrito(request, id_pedido):
-#     carrito = Carrito.objects.filter(pedido = id_pedido)
-#     contador = Carrito.objects.count()
-
-#     datos = {
-#         'pedido': id_pedido,
-#         'productos': carrito,
-#         'cantidad': contador,
-#         'total': 0,
-#         'contar': 0,
-#     }
-    
-#     for producto in carrito:
-#         datos['subtotal'] = round(carrito.producto.precio * carrito.producto.cantidad)
-#         datos['total'] += round(carrito.producto.precio * carrito.producto.cantidad)
-
-#     if request.method == 'POST':
-#         for i in carrito:
-#             pedido = Pedido.objects.create()
-
-#             pedido.id_pedido
 
 def admin_view(request):
     return redirect('admin/')

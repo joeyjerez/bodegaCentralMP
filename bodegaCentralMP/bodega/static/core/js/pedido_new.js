@@ -1,7 +1,6 @@
 $(document).ready(function () {
 
     var productosAgregados = {};
-    var preciosProductos = {};
 
     $('#agregar-producto').click(function (e) {
         e.preventDefault();
@@ -13,6 +12,7 @@ $(document).ready(function () {
         if (productosAgregados.hasOwnProperty(productoId)) {
             productosAgregados[productoId].cantidad += cantidad;
             $('#cantidad-' + productoId).text(productosAgregados[productoId].cantidad);
+            
         } else {
             productosAgregados[productoId] = {
                 nombre: productoNombre,
@@ -22,7 +22,7 @@ $(document).ready(function () {
             };
             var listItem = '';
             listItem += '<li id="producto-'+ productoId +'" class="list-group-item">';
-            listItem +=     productoNombre + ' (<span id="cantidad-' + productoId + '">1</span>)';
+            listItem +=     productoNombre + ' (<span id="cantidad-' + productoId + '">'+ productosAgregados[productoId].cantidad +'</span>)';
             listItem +=     ' --> Subtotal:  <span id="subtotal-' + productoId + '"></span>';
             listItem += '   <input type="hidden" name="productos[]" value="' + productoId + '">';
             listItem += '   <input type="hidden" name="cantidad-'+ productoId +'" value="'+ productosAgregados[productoId].cantidad + '">';
