@@ -185,37 +185,34 @@ def pedidos_list(request):
 @login_required
 def pedidos_new(request):
     if request.method == 'POST':
+        try:
+            id_pedido = request.POST.get('pedido')
+            sucursal_id = request.POST.get('sucursal')
+            productos = request.POST.getlist('productos[]')
+            estado = request.POST.get('estado')
+            total = request.POST.get('total-pedido')
+            
+            sucursal = Sucursal.objects.get(id_sucursal=sucursal_id)
 
-        id_pedido = request.POST.get('pedido')
-        # print(id_pedido)
-        sucursal_id = request.POST.get('sucursal')
-        # print(sucursal_id)
-        productos = request.POST.getlist('productos[]')
-        # print(productos)
-        estado = request.POST.get('estado')
-        # print(estado)
-        total = request.POST.get('total-pedido')
-        # print(total)
-        
-        sucursal = Sucursal.objects.get(id_sucursal=sucursal_id)
+            for producto_id in productos:
+                producto = Producto.objects.get(codigo=producto_id)
+                cantidad = int(request.POST.get('cantidad-' + producto_id))
+                subtotal = producto.precio * cantidad
 
-        for producto_id in productos:
-            producto = Producto.objects.get(codigo=producto_id)
-            cantidad = int(request.POST.get('cantidad-' + producto_id))
-            subtotal = producto.precio * cantidad
+                producto.stock -= cantidad
 
-            producto.stock -= cantidad
-
-            if producto.stock < 0:
-                raise forms.ValidationError("La cantidad solicitada supera la cantidad en stock.")
-            else:
-                pedidoProducto = DetallePedido.objects.create(pedido=pedido, producto=producto, cantidad=cantidad, subtotal=subtotal)
-                pedidoProducto.save()
-                producto.save()
-        
-        pedido = Pedido.objects.create(id_pedido=id_pedido, sucursal=sucursal, estado=estado, total=total)
-        pedido.save()
-        return redirect(reverse(pedidos_list) + "?OK")
+                if producto.stock < 0:
+                    raise forms.ValidationError(f"La cantidad solicitada del producto {producto_id} - {producto_id.nombre} supera la cantidad en stock.")
+                else:
+                    pedidoProducto = DetallePedido.objects.create(pedido=pedido, producto=producto, cantidad=cantidad, subtotal=subtotal)
+                    pedidoProducto.save()
+                    producto.save()
+            
+            pedido = Pedido.objects.create(id_pedido=id_pedido, sucursal=sucursal, estado=estado, total=total)
+            pedido.save()
+            return redirect(reverse(pedidos_list) + "?OK")
+        except:
+            return redirect(reverse(pedidos_list) + "?FAIL")
     else:
         productos = Producto.objects.all()
         sucursales = Sucursal.objects.all()
@@ -245,25 +242,18 @@ def pedidos_detalle(request, id_pedido):
     except:
         return render(redirect(pedidos_list))
 
-# @login_required
-# def pedidos_edit(request, id_pedido):
-#     try:
-#         pedido = Pedido.objects.get(id_pedido=id_pedido)
-#         if producto:
-#             form = PedidoForm(instance = pedido)
-#         else:
-#             return redirect(reverse('pedidos_list') + "?FAIL")
-    
-#         if request.method == 'POST':
-#             form = PedidoForm(request.POST or None, instance=pedido)
-#             if form.is_valid():
-#                 form.save()
-#                 return redirect(reverse('pedidos_list') + "?OK")
-#             else:
-#                 return redirect(reverse('pedidos_edit') + id_pedido)
-#         return render(request,'core/pedido/pedido_edit.html',{'form':form})   
-#     except:
-#         return redirect(reverse('pedidos_list') + "?FAIL")
+@login_required
+def pedidos_edit(request, id_pedido):
+    try:
+        if request.method == 'POST':
+            pedido = Pedido.objects.get(id_pedido = id_pedido)
+            estado = request.POST.get('estado')
+
+            pedido.estado = estado
+            pedido.save()
+            return redirect(reverse('pedidos_list') + "?OK")
+    except:
+        return redirect(reverse('pedidos_list') + "?FAIL")
 
 @login_required
 def pedidos_delete(request, id_pedido):
