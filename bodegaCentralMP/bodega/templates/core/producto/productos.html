@@ -2,7 +2,7 @@
 
 {% load static humanize %}
 
-{% block title %}Producto{% endblock %}
+{% block title %}Productos{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -21,12 +21,12 @@
         {% endif %}
         <h1>Lista de Productos</h1>
         <div class="col-lg-12 producto">
-            <div class="container-fluid">
+            <div class="text-start my-4 mx-5">
+                <a href="{% url 'productos_new' %}" class="btn btn-success">Agregar Producto</a>
+            </div>
+            <div class="container-fluid table-wrapper">
                 <table id="table" class="table table-hover table-bordered border-dark table-striped">
-                    <div class="text-start my-4 mx-5">
-                        <a href="{% url 'productos_new' %}" class="btn btn-success">Agregar Producto</a>
-                    </div>
-                    <thead class="sticky-top">
+                    <thead>
                         <tr>
                             <th scope="col" class="fw-bold">Imagen</th>
                             <th scope="col" class="fw-bold">Código</th>
@@ -35,6 +35,7 @@
                             <th scope="col" class="fw-bold">Marca</th>
                             <th scope="col" class="fw-bold">Descripción</th>
                             <th scope="col" class="fw-bold">Precio</th>
+                            <th scope="col" class="fw-bold">Fecha de Creación</th>
                             <th scope="col" class="fw-bold">Acciones</th>
                         </tr>
                     </thead>
@@ -52,6 +53,7 @@
                             <td>{{p.marca}}</td>
                             <td>{{p.descripcion}}</td>
                             <td>${{p.precio|intcomma:False}}</td>
+                            <td>{{p.fecha_creacion}}</td>
                             <td>
                                 <div class="align-items-center">
                                     <a class="btn btn-warning" href="/bodega/productos/{{p.codigo}}/edit">
@@ -66,7 +68,7 @@
                         </tr>
                         {% empty %}
                         <tr>
-                            <td class="text-center fw-bold" colspan="8">No hay productos registrados.</td>
+                            <td class="text-center fw-bold" colspan="9">No hay productos registrados.</td>
                         </tr>
                         {% endfor %}
                     </tbody>

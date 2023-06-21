@@ -14,11 +14,6 @@ from django.contrib.auth.decorators import login_required
 def root(request):
     return redirect('/bodega')
 
-@login_required
-def index(request):
-    return render(request, 'core/home.html')
-
-
 def login_view(request):
     if request.method == 'POST':
         email = request.POST['email']
@@ -138,10 +133,12 @@ def sucursal_new(request):
             id_sucursal = form.cleaned_data.get("id_sucursal")
             nombre = form.cleaned_data.get("nombre")
             direccion = form.cleaned_data.get("direccion")
+            token = form.cleaned_data.get("token")
             obj = Sucursal.objects.create(
                 id_sucursal = id_sucursal,
                 nombre = nombre,
-                direccion = direccion
+                direccion = direccion,
+                token = token,
             )
             obj.save()
             return redirect(reverse('sucursal_list') + "?OK")
@@ -201,18 +198,25 @@ def pedidos_new(request):
         # print(total)
         
         sucursal = Sucursal.objects.get(id_sucursal=sucursal_id)
-        pedido = Pedido.objects.create(id_pedido=id_pedido, sucursal=sucursal, estado=estado, total=total)
-        pedido.save()
 
         for producto_id in productos:
             producto = Producto.objects.get(codigo=producto_id)
             cantidad = int(request.POST.get('cantidad-' + producto_id))
             subtotal = producto.precio * cantidad
-            pedidoProducto = DetallePedido.objects.create(pedido=pedido, producto=producto, cantidad=cantidad, subtotal=subtotal)
-            pedidoProducto.save()
+
+            producto.stock -= cantidad
+
+            if producto.stock < 0:
+                raise forms.ValidationError("La cantidad solicitada supera la cantidad en stock.")
+            else:
+                pedidoProducto = DetallePedido.objects.create(pedido=pedido, producto=producto, cantidad=cantidad, subtotal=subtotal)
+                pedidoProducto.save()
+                producto.save()
+        
+        pedido = Pedido.objects.create(id_pedido=id_pedido, sucursal=sucursal, estado=estado, total=total)
+        pedido.save()
         return redirect(reverse(pedidos_list) + "?OK")
     else:
-
         productos = Producto.objects.all()
         sucursales = Sucursal.objects.all()
         context = {

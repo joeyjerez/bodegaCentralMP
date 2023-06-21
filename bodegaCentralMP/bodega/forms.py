@@ -32,16 +32,23 @@ class SucursalForm(ModelForm):
     class Meta:
         model = Sucursal
 
-        fields = '__all__'
+        fields = [
+            'id_sucursal',
+            'nombre',
+            'direccion',
+            'token',
+        ]
         labels = {
             'id_sucursal' : 'ID Sucursal',
             'nombre' : 'Nombre de Sucursal',
-            'direccion' : 'Dirección'
+            'direccion' : 'Dirección',
+            'token' : 'Token',
         }
         widgets = {
-            'id_sucursal': forms.TextInput(attrs={'required':True,'type':'number','title':'ID Sucursal','class':'form-control'}),
-            'nombre': forms.TextInput(attrs={'required':True,'title':'Nombre de Sucursal','class':'form-control'}),
-            'direccion': forms.TextInput(attrs={'required':True,'title':'Dirección','class':'form-control'}),
+            'id_sucursal' : forms.TextInput(attrs={'type':'number','class':'form-control'}),
+            'nombre' : forms.TextInput(attrs={'class':'form-control', 'size':150}),
+            'direccion' : forms.TextInput(attrs={'class':'form-control', 'size':120}),
+            'token' : forms.TextInput(attrs={'class':'form-control','size':12}),
         }
 
 class PedidoForm(ModelForm):
@@ -50,13 +57,6 @@ class PedidoForm(ModelForm):
 
         fields = "__all__"
         labels = ""
-        widgets = {
-            'id_pedido': forms.TextInput(attrs={'required':True,'type':'number','title':'ID Pedido','class':'form-control'}),
-            'sucursal': forms.Select(attrs={'required':True,'title':'Sucursal','class':'form-control'}),
-            'productos': forms.Select(attrs={'required':True,'title':'Productos','class':'form-control align-top','id':'productos','name':'productos'}),
-            'estado': forms.Select(attrs={'title':'Estado','class':'form-select'})
-            # 'cantidad': forms.TextInput(attrs={'required':True,'type':'number','title':'Cantidad','class':'form-control'}),
-        }
     
     # def clean_pedido(self):
     #     try:

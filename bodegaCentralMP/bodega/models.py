@@ -12,14 +12,15 @@ class Producto(models.Model):
     #     (reaco, "Reacondicionado")
     # ]
 
-    codigo = models.IntegerField(primary_key=True, verbose_name='Codigo', null=False, unique=True)
-    nombre = models.CharField(max_length=50, verbose_name='Nombre', null=False)
+    codigo = models.IntegerField(primary_key=True, null=False, unique=True, verbose_name='Codigo')
+    nombre = models.CharField(max_length=50, null=False, verbose_name='Nombre')
     # estado = models.CharField(max_length=5, choices=LISTA_CONDICION, default=nuevo)
-    stock = models.IntegerField(verbose_name='Stock', null=False, default=0)
+    stock = models.IntegerField(null=False, default=0, verbose_name='Stock')
     descripcion = models.CharField(max_length=400, verbose_name='Descripción')
     marca = models.CharField(max_length=80, verbose_name='Marca')
-    precio = models.IntegerField(verbose_name='Precio', null=False, default=0)
-    imagen = models.ImageField(null=True, blank=True, verbose_name='Imagen', upload_to='productos/')
+    precio = models.IntegerField(null=False, default=0, verbose_name='Precio')
+    imagen = models.ImageField(null=True, blank=True, upload_to='productos/', verbose_name='Imagen')
+    fecha_creacion = models.DateField(auto_now_add=True, verbose_name='Fecha de Creación')
 
     class Meta:
         verbose_name='producto'
@@ -30,9 +31,10 @@ class Producto(models.Model):
         return self.nombre + " - ${:0,.0f}".format(self.precio)
 
 class Sucursal(models.Model):
-    id_sucursal = models.IntegerField(primary_key=True, verbose_name='ID Sucursal', unique=True)
-    nombre = models.CharField(verbose_name='Nombre de Sucursal', null=False, max_length=150)
+    id_sucursal = models.PositiveIntegerField(primary_key=True, verbose_name='ID Sucursal', unique=True)
+    nombre = models.CharField(verbose_name='Nombre', null=False, max_length=150)
     direccion = models.CharField(verbose_name='Dirección', null=False, max_length=120)
+    token = models.CharField(verbose_name="Token", max_length=12, unique=True, default='secret')
 
     class Meta:
         verbose_name='sucursal'
@@ -48,8 +50,8 @@ class Pedido(models.Model):
     envi = "Enviado"
     compl = "Completado"
 
-    id_pedido = models.CharField(primary_key=True, max_length=9, unique=True)
-    fecha_pedido = models.DateField(verbose_name='Fecha del Pedido', auto_now_add=True)
+    id_pedido = models.PositiveIntegerField(primary_key=True, unique=True)
+    fecha_pedido = models.DateTimeField(verbose_name='Fecha del Pedido', auto_now_add=True)
     sucursal = models.ForeignKey(Sucursal, on_delete= models.CASCADE, null=False)
     productos = models.ManyToManyField(Producto, through='DetallePedido')
     estado = models.CharField(max_length=10, verbose_name='Estado', default=pend, null=False)
