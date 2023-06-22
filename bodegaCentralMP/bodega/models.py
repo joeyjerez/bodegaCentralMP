@@ -1,26 +1,14 @@
 from django.db import models
 
 class Producto(models.Model):
-
-    # nuevo = "Nuevo"
-    # usado = "Usado"
-    # reaco = "Reacondicionado"
-
-    # LISTA_CONDICION = [
-    #     (nuevo, "Nuevo"),
-    #     (usado, "Usado"),
-    #     (reaco, "Reacondicionado")
-    # ]
-
     codigo = models.IntegerField(primary_key=True, null=False, unique=True, verbose_name='Codigo')
     nombre = models.CharField(max_length=50, null=False, verbose_name='Nombre')
-    # estado = models.CharField(max_length=5, choices=LISTA_CONDICION, default=nuevo)
     stock = models.IntegerField(null=False, default=0, verbose_name='Stock')
     descripcion = models.CharField(max_length=400, verbose_name='Descripción')
     marca = models.CharField(max_length=80, verbose_name='Marca')
     precio = models.IntegerField(null=False, default=0, verbose_name='Precio')
     imagen = models.ImageField(null=True, blank=True, upload_to='productos/', verbose_name='Imagen')
-    fecha_creacion = models.DateField(auto_now_add=True, verbose_name='Fecha de Creación')
+    fecha_creacion = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de Creación')
 
     class Meta:
         verbose_name='producto'
@@ -72,4 +60,4 @@ class DetallePedido(models.Model):
     subtotal = models.DecimalField(max_digits=14, decimal_places=2, default=0)
 
     def __str__(self):
-        return f"Pedido #{self.pedido.id_pedido} {self.id}"
+        return f"Pedido #{self.pedido.id_pedido} {self.pedido.id_pedido}"

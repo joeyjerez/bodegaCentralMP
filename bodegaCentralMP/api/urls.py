@@ -4,8 +4,10 @@ from .views import *
 
 urlpatterns = [
     path('', root),
-    path('productos/', producto_list),
-    path('productos/<int:codigo>', producto_detail),
+    path('v1/productos/', producto_list),
+    path('v1/productos/<int:codigo>', producto_detail),
+    path('v1/pedidos/', pedido_list),
+    path('v1/pedidos/<int:id_pedido>/', pedido_detail),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

@@ -194,6 +194,9 @@ def pedidos_new(request):
             
             sucursal = Sucursal.objects.get(id_sucursal=sucursal_id)
 
+            pedido = Pedido.objects.create(id_pedido=id_pedido, sucursal=sucursal, estado=estado, total=total)
+            pedido.save()
+            print(f"Pedido: {pedido}")
             for producto_id in productos:
                 producto = Producto.objects.get(codigo=producto_id)
                 cantidad = int(request.POST.get('cantidad-' + producto_id))
@@ -206,12 +209,13 @@ def pedidos_new(request):
                 else:
                     pedidoProducto = DetallePedido.objects.create(pedido=pedido, producto=producto, cantidad=cantidad, subtotal=subtotal)
                     pedidoProducto.save()
+                    print(f"DetallePedido: {pedidoProducto}")
                     producto.save()
-            
-            pedido = Pedido.objects.create(id_pedido=id_pedido, sucursal=sucursal, estado=estado, total=total)
-            pedido.save()
+                    print(f"Producto: {producto}, Cantidad: {pedidoProducto.cantidad}")
             return redirect(reverse(pedidos_list) + "?OK")
         except:
+            print(f"Producto: {producto}")
+            pedido.delete()
             return redirect(reverse(pedidos_list) + "?FAIL")
     else:
         productos = Producto.objects.all()
