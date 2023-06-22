@@ -1,0 +1,65 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Pedidos{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row text-center my-4 mx-5">
+        {% if 'OK' in request.GET %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Pedido</strong> guardado correctamente.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% if 'FAIL' in request.GET %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Ha ocurrido un error.</strong> Inténtelo nuevamente más tarde.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        <h1>Lista de Pedidos</h1>
+        <div class="col-lg-12 pedido">
+            <div class="text-start my-4 mx-5">
+                <a href="{% url 'pedidos_new' %}" class="btn btn-success">Agregar Pedido</a>
+            </div>
+            <div class="container-fluid table-wrapper">
+                <table id="table" class="table table-hover table-bordered border-dark table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="fw-bold">ID Pedido</th>
+                            <th scope="col" class="fw-bold">Fecha de Solicitud</th>
+                            <th scope="col" class="fw-bold">Sucursal</th>
+                            <th scope="col" class="fw-bold">Estado</th>
+                            <th scope="col" class="fw-bold">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in pedidos %}
+                        <tr>
+                            <td>{{p.id_pedido}}</td>
+                            <td>{{p.fecha_pedido}}</td>
+                            <td>{{p.sucursal}}</td>
+                            <td>{{p.estado}}</td>
+                            <td>
+                                <a class="btn btn-primary" href="/bodega/pedidos/{{p.id_pedido}}"
+                                    data-bs-toggle="tooltip" data-bs-title="Detalles del pedido">
+                                    <i class="bi bi-clipboard2-data-fill"></i>
+                                </a>
+                                <a class="btn btn-danger" href="/bodega/pedidos/{{p.id_pedido}}/delete"
+                                    data-bs-toggle="tooltip" data-bs-title="Eliminar pedido">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td class="text-center fw-bold" colspan="8">No hay pedidos registrados.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

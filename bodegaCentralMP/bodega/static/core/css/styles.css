@@ -168,6 +168,11 @@ a {
     height: 100vh
 }
 
+.container-fluid {
+    max-height: clamp(40vh);
+    overflow: auto;
+}
+
 @media screen and (min-width: 768px) {
     body {
         margin: calc(var(--header-height) + 1rem) 0 0 0;
@@ -202,3 +207,12 @@ a {
     }
 }
 
+textarea {
+    resize: none;
+}
+
+.table-wrapper {
+    max-height: 500px;
+    overflow: auto;
+    display:inline-block;
+}

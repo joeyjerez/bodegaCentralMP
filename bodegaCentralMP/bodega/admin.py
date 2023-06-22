@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Producto
+from .models import *
     
 class ProductoAdmin(admin.ModelAdmin):
     def has_module_permission(self, request):
@@ -27,3 +27,5 @@ class ProductoAdmin(admin.ModelAdmin):
         return  not request.user.is_superuser or request.user.is_superuser
  
 admin.site.register(Producto, ProductoAdmin)
+admin.site.register(Pedido)
+admin.site.register(Sucursal)

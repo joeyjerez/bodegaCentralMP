@@ -14,11 +14,6 @@ from django.contrib.auth.decorators import login_required
 def root(request):
     return redirect('/bodega')
 
-@login_required
-def index(request):
-    return render(request, 'core/home.html')
-
-
 def login_view(request):
     if request.method == 'POST':
         email = request.POST['email']
@@ -46,7 +41,6 @@ def error404(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
-
 
 def saludo(request):
     
@@ -127,66 +121,152 @@ def productos_delete(request, codigo):
         return redirect(reverse('productos_list') + "?FAIL")
 
 @login_required
-def usuarios_list(request):
-    context = {'usuarios' : Usuario.objects.all()}
-    return render(request, 'core/usuario/usuarios.html', context)
+def sucursal_list(request):
+    context = {'sucursales' : Sucursal.objects.all()}
+    return render(request, 'core/sucursal/sucursales.html', context)
 
 @login_required
-def usuarios_new(request):
+def sucursal_new(request):
     if request.method == 'POST':
-        form = UsuarioForm(request.POST)
+        form = SucursalForm(request.POST)
         if form.is_valid():
-            rut = form.cleaned_data.get("rut")
+            id_sucursal = form.cleaned_data.get("id_sucursal")
             nombre = form.cleaned_data.get("nombre")
-            apellido = form.cleaned_data.get("apellido")
-            cargo = form.cleaned_data.get("cargo")
-            correo = form.cleaned_data.get("correo")
-            contrasena = form.cleaned_data.get("contrasena")
-            obj = Usuario.objects.create(
-                rut = rut,
+            direccion = form.cleaned_data.get("direccion")
+            token = form.cleaned_data.get("token")
+            obj = Sucursal.objects.create(
+                id_sucursal = id_sucursal,
                 nombre = nombre,
-                apellido = apellido,
-                cargo = cargo,
-                correo = correo,
-                contrasena = contrasena,
+                direccion = direccion,
+                token = token,
             )
             obj.save()
-            return redirect(reverse('usuarios_list') + "?OK")
+            return redirect(reverse('sucursal_list') + "?OK")
         else:
-            return redirect(reverse('usuarios_list') + "?FAIL")
+            return redirect(reverse('sucursal_list') + "?FAIL")
     else:
-        form = UsuarioForm
-    return render(request,'core/usuario/usuario_new.html',{'form':form})
+        form = SucursalForm
+    return render(request,'core/sucursal/sucursal_new.html',{'form':form})
 
 @login_required
-def usuarios_edit(request, rut):
+def sucursal_edit(request, id_sucursal):
     try:
-        usuario = Usuario.objects.get(rut=rut)
-        if producto:
-            form = UsuarioForm(instance = usuario)
+        sucursal = Sucursal.objects.get(id_sucursal=id_sucursal)
+        if sucursal:
+            form = SucursalForm(instance = sucursal)
         else:
-            return redirect(reverse('usuarios_list') + "?FAIL")
+            return redirect(reverse('sucursal_list') + "?FAIL")
     
         if request.method == 'POST':
-            form = UsuarioForm(request.POST,request.FILES,instance=usuario)
+            form = SucursalForm(request.POST or None, instance = sucursal)
             if form.is_valid():
                 form.save()
-                return redirect(reverse('usuarios_list') + "?OK")
+                return redirect(reverse('sucursal_list') + "?OK")
             else:
-                return redirect(reverse('usuarios_edit') + rut)
-        return render(request,'core/usuario/usuario_edit.html',{'form':form})   
+                return redirect(reverse('sucursal_edit') + id_sucursal)
+        return render(request,'core/sucursal/sucursal_edit.html',{'form':form})   
     except:
-        return redirect(reverse('usuarios_list') + "?FAIL")
+        return redirect(reverse('sucursal_list') + "?FAIL")
 
 @login_required
-def usuarios_delete(request, rut):
+def sucursal_delete(request, id_sucursal):
     try:
-        usuario = Usuario.objects.get(rut=rut)
-        usuario.delete()
-        return redirect(to= 'usuarios_list')
+        sucursal = Sucursal.objects.get(id_sucursal=id_sucursal)
+        sucursal.delete()
+        return redirect(to= 'sucursal_list')
     except:
-        return redirect(reverse('usuarios_list') + "?FAIL")
-    
-@login_required 
+        return redirect(reverse('sucursal_list') + "?FAIL")
+
+@login_required
+def pedidos_list(request):
+    context = {'pedidos' : Pedido.objects.all()}
+    return render(request, 'core/pedido/pedidos.html', context)
+
+@login_required
+def pedidos_new(request):
+    if request.method == 'POST':
+        try:
+            id_pedido = request.POST.get('pedido')
+            sucursal_id = request.POST.get('sucursal')
+            productos = request.POST.getlist('productos[]')
+            estado = request.POST.get('estado')
+            total = request.POST.get('total-pedido')
+            
+            sucursal = Sucursal.objects.get(id_sucursal=sucursal_id)
+
+            pedido = Pedido.objects.create(id_pedido=id_pedido, sucursal=sucursal, estado=estado, total=total)
+            pedido.save()
+            print(f"Pedido: {pedido}")
+            for producto_id in productos:
+                producto = Producto.objects.get(codigo=producto_id)
+                cantidad = int(request.POST.get('cantidad-' + producto_id))
+                subtotal = producto.precio * cantidad
+
+                producto.stock -= cantidad
+
+                if producto.stock < 0:
+                    raise forms.ValidationError(f"La cantidad solicitada del producto {producto_id} - {producto_id.nombre} supera la cantidad en stock.")
+                else:
+                    pedidoProducto = DetallePedido.objects.create(pedido=pedido, producto=producto, cantidad=cantidad, subtotal=subtotal)
+                    pedidoProducto.save()
+                    print(f"DetallePedido: {pedidoProducto}")
+                    producto.save()
+                    print(f"Producto: {producto}, Cantidad: {pedidoProducto.cantidad}")
+            return redirect(reverse(pedidos_list) + "?OK")
+        except:
+            print(f"Producto: {producto}")
+            pedido.delete()
+            return redirect(reverse(pedidos_list) + "?FAIL")
+    else:
+        productos = Producto.objects.all()
+        sucursales = Sucursal.objects.all()
+        context = {
+            'productos': productos,
+            'sucursales': sucursales,
+        }
+    return render(request, 'core/pedido/pedido_new.html', context)
+
+@login_required
+def pedidos_detalle(request, id_pedido):
+    try:
+        pedido = Pedido.objects.get(id_pedido = id_pedido)
+        detalle = DetallePedido.objects.filter(pedido_id = id_pedido)
+        productos = Producto.objects.all()
+        total = 0
+        for p in detalle:
+            total += p.subtotal
+
+        return render(request, 'core/pedido/pedido_detalle.html',
+        {
+            'pedido':pedido,
+            'detalle':detalle,
+            'productos':productos,
+            'total':total,
+        })
+    except:
+        return render(redirect(pedidos_list))
+
+@login_required
+def pedidos_edit(request, id_pedido):
+    try:
+        if request.method == 'POST':
+            pedido = Pedido.objects.get(id_pedido = id_pedido)
+            estado = request.POST.get('estado')
+
+            pedido.estado = estado
+            pedido.save()
+            return redirect(reverse('pedidos_list') + "?OK")
+    except:
+        return redirect(reverse('pedidos_list') + "?FAIL")
+
+@login_required
+def pedidos_delete(request, id_pedido):
+    try:
+        pedido = Pedido.objects.get(id_pedido=id_pedido)
+        pedido.delete()
+        return redirect(to= 'pedidos_list')
+    except:
+        return redirect(reverse('pedidos_list') + "?FAIL")
+
 def admin_view(request):
     return redirect('admin/')

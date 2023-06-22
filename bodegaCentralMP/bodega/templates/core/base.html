@@ -39,10 +39,14 @@
         <!--Lista de sidemenu-->
         <div class="nav_list">
           <!--Listado de links-->
-          <a href="{% url 'productos_list' %}" class="nav_link active"> <i class='bx bx-store-alt nav_icon'></i> <span
-              class="nav_name">Productos</span></a>
           <a href="{% url 'admin_view' %}" class="nav_link active"> <i class='bx bx-user nav_icon'></i> <span
-              class="nav_name">Administrador</span></a>
+            class="nav_name">Administrador</span></a>
+          <a href="{% url 'productos_list' %}" class="nav_link active"> <i class='bx bx-cart nav_icon'></i> <span
+              class="nav_name">Productos</span></a>
+          <a href="{% url 'pedidos_list' %}" class="nav_link active"> <i class='bx bx-box nav_icon'></i> <span
+            class="nav_name">Pedidos</span></a>
+          <a href="{% url 'sucursal_list' %}" class="nav_link active"> <i class='bx bx-store nav_icon'></i> <span
+            class="nav_name">Sucursales</span></a>
         </div>
       </div>
       <a href="{% url 'logout' %}" class="nav_link" id="logout"><i class='bx bx-log-out nav_icon'></i> <span 
@@ -50,7 +54,7 @@
     </nav>
   </div>
   <!--Container Main start-->
-  <div class="height-100 bg-light">
+  <div class="bg-light">
 
     {% block content %}
     <!-- Agregar contenido aquí -->
