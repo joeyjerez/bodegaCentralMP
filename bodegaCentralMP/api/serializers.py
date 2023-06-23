@@ -9,13 +9,13 @@ class ProductoSerializerList(serializers.ModelSerializer):
 class ProductoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Producto
-        fields = ['codigo','nombre']
+        fields = '__all__'
 
 class DetallePedidoSerializer(serializers.ModelSerializer):
-    producto_codigo = serializers.ReadOnlyField(source='producto.codigo')
+    codigo = serializers.ReadOnlyField(source='producto.codigo')
     class Meta:
         model = DetallePedido
-        fields = ['producto_codigo','cantidad']
+        fields = ['codigo','cantidad']
 
 class PedidoSerializer(serializers.ModelSerializer):
     productos = DetallePedidoSerializer(source='detallepedido_set', many=True)

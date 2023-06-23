@@ -1,5 +1,6 @@
 import requests
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
 from rest_framework import status, generics
@@ -19,7 +20,7 @@ def producto_list(request, format=None):
 
         if productos:
             productos_serializer = ProductoSerializerList(productos,many=True)
-            return Response(productos_serializer.data)
+            return Response(productos_serializer.data,status=status.HTTP_200_OK)
         else:
             return Response({'mensaje':'No hay productos registrados.'},status=status.HTTP_404_NOT_FOUND)
 
@@ -44,7 +45,7 @@ def producto_detail(request, codigo, format=None):
     
     if request.method == 'GET':
         producto_serializer = ProductoSerializer(producto)
-        return Response(producto_serializer.data)
+        return Response(producto_serializer.data, status=status.HTTP_200_OK)
 
     elif request.method == 'PUT':
         producto_data = JSONParser().parse(request)
@@ -65,7 +66,7 @@ def pedido_list(request, format = None):
 
         if pedidos:
             pedidos_serializer = PedidoSerializer(pedidos, many=True)
-            return Response(pedidos_serializer.data)
+            return Response(pedidos_serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({'mensaje':'No hay pedidos registrados.'}, status=status.HTTP_404_NOT_FOUND)
     
@@ -86,4 +87,4 @@ def pedido_detail(request, id_pedido, format = None):
 
     if request.method == 'GET':
         pedido_serializer = PedidoSerializer(pedido)
-        return Response(pedido_serializer.data)
+        return Response(pedido_serializer.data, status=status.HTTP_200_OK)
