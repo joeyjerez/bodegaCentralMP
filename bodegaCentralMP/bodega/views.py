@@ -44,18 +44,53 @@ def logout_view(request):
 
 def saludo(request):
     
-    url = "https://musicpro.bemtorres.win/api/v1/test/saludo"
+    url = "https://musicpro.bemtorres.win/api/v1/saludo"
 
     try:
         response = requests.get(url)
         data = response.json()
-
-        print(data['message'])
+        respuesta = "Todo bueno, todo correcto"
+        print(respuesta)
 
     except requests.exceptions.RequestException as e:
-        print(f'Error: {e}')
+        respuesta = f'Error: {e}'
     
-    return HttpResponse("¡Saludo completado!")
+    return HttpResponse(f"<h1>¡Saludo completado!</h1>\n<h2>{respuesta}</h2>")
+
+@login_required
+def solicitud_transporte(request, id_pedido):
+    url = 'https://musicpro.bemtorres.win/api/v1/transporte/solicitud'
+    pedido = Pedido.objects.get(id_pedido = id_pedido)
+    
+    if "MUSICPRO" in pedido.estado:
+        return redirect(reverse('pedidos_list') + "?AE")
+    
+    else:
+        post = {
+            "nombre_origen":"bodegaCentralMP",
+            "direccion_origen":"Plaza Sésamo 123",
+            "nombre_destino": pedido.sucursal.nombre,
+            "direccion_destino": pedido.sucursal.direccion,
+            "comentario": f"Envío de Pedido #{pedido.id_pedido} para {pedido.sucursal.nombre}",
+            "info": f"Pedido #{pedido.id_pedido} - {pedido.sucursal.nombre} {pedido.sucursal.direccion}"
+        }
+        
+        try:
+            response = requests.post(url, post)
+            data = response.json()
+            
+            if response.status_code == 201:
+                pedido.estado = "En reparto - "+ data['codigo_seguimiento']
+                pedido.save()
+                print("Solicitud de seguimiento realizada correctamente.")
+                return redirect(reverse('pedidos_list') + "?POST") 
+            elif response.status_code == 400:
+                print("Error en la solicitud de seguimiento.")
+                return redirect(reverse('pedidos_list') + "?POSTFAIL")
+            
+        except requests.exceptions.RequestException as e:
+            respuesta = 'Error: {e}'
+            return redirect(reverse('pedidos_list') + "?POSTFAIL")
 
 @login_required
 def productos_list(request):

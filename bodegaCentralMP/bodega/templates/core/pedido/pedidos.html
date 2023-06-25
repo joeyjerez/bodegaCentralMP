@@ -12,16 +12,32 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         {% endif %}
+        {% if 'POST' in request.GET %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Solicitud de seguimiento creada correctamente.</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
         {% if 'FAIL' in request.GET %}
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <strong>Ha ocurrido un error.</strong> Inténtelo nuevamente más tarde.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         {% endif %}
+        {% if 'POSTFAIL' in request.GET %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Ha ocurrido un error con la solicitud.</strong> Inténtelo nuevamente más tarde.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
         <h1>Lista de Pedidos</h1>
         <div class="col-lg-12 pedido">
-            <div class="text-start my-4 mx-5">
-                <a href="{% url 'pedidos_new' %}" class="btn btn-success">Agregar Pedido</a>
+            <div class="">
+                <div class="d-flex justify-content-between my-4 mx-5">
+                    <a href="{% url 'pedidos_new' %}" class="btn btn-success">Agregar Pedido</a>
+                    <a href="https://musicpro.bemtorres.win/transporte" class="btn btn-warning">Página de
+                        seguimiento</a>
+                </div>
             </div>
             <div class="container-fluid table-wrapper">
                 <table id="table" class="table table-hover table-bordered border-dark table-striped">
@@ -50,6 +66,12 @@
                                     data-bs-toggle="tooltip" data-bs-title="Eliminar pedido">
                                     <i class="bi bi-trash3"></i>
                                 </a>
+                                {% if "En reparto" not in p.estado %}
+                                <a class="btn btn-warning" href="/bodega/pedidos/{{p.id_pedido}}/solicitud"
+                                    data-bs-toggle="tooltip" data-bs-title="Solicitar transporte">
+                                    <i class="bi bi-truck"></i>
+                                </a>
+                                {% endif %}
                             </td>
                         </tr>
                         {% empty %}
@@ -62,4 +84,5 @@
             </div>
         </div>
     </div>
-    {% endblock %}
+</div>
+{% endblock %}

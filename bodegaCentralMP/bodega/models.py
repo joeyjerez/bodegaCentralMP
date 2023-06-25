@@ -35,7 +35,7 @@ class Sucursal(models.Model):
 class Pedido(models.Model):
 
     pend = "Pendiente"
-    envi = "Enviado"
+    envi = "En reparto"
     compl = "Completado"
 
     id_pedido = models.PositiveIntegerField(primary_key=True, unique=True)
@@ -44,7 +44,6 @@ class Pedido(models.Model):
     productos = models.ManyToManyField(Producto, through='DetallePedido')
     estado = models.CharField(max_length=10, verbose_name='Estado', default=pend, null=False)
     total = models.DecimalField(max_digits=14, decimal_places=2, default=0, verbose_name='Total del Pedido')
-
     class Meta:
         verbose_name='pedido'
         verbose_name_plural='pedidos'

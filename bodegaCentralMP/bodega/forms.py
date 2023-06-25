@@ -55,7 +55,12 @@ class PedidoForm(ModelForm):
     class Meta:
         model = Pedido
 
-        fields = "__all__"
+        fields = [
+            'id_pedido',
+            'sucursal',
+            'productos',
+            'estado',
+        ]
         labels = ""
     
     # def clean_pedido(self):
