@@ -1,8 +1,8 @@
-$(document).ready(function () {
+$(function () {
 
     var productosAgregados = {};
 
-    $('#agregar-producto').click(function (e) {
+    $('#agregar-producto').on('click', function (e) {
         e.preventDefault();
         var productoId = $('#producto').val();
         var productoNombre = $('#producto option:selected').text();

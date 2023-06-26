@@ -4,21 +4,21 @@ function showTime() {
     var fecha = new Date();
 
     //Arrays creadas para mostrar el día y mes
-    var nombreDias = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
-    var nombreMes = new Array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+    var nombreDias = new Array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
+    var nombreMes = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
     var min = validaTiempo(fecha.getMinutes());
     var seg = validaTiempo(fecha.getSeconds());
 
     var dia = `${nombreDias[fecha.getDay()]} ${fecha.getDate()} de ${nombreMes[fecha.getMonth()]} del ${fecha.getFullYear()}`;
     var hora = `${validaTiempo(fecha.getHours())}:${min}:${seg}`;
-    document.getElementById('tiempo').innerHTML=`${hora}  |  ${dia}`;
-    setTimeout(function() {showTime()},1000);
+    document.getElementById('tiempo').innerHTML = `${hora}  |  ${dia}`;
+    setTimeout(function () { showTime() }, 1000);
 };
 
 //Valida la hora para no tener horas y minutos en un solo dígito. Ej: (9:4) => (09:04)
 function validaTiempo(i) {
     if (i < 10) {
-        i="0" + i;
+        i = "0" + i;
     }
     return i;
 };
@@ -114,7 +114,7 @@ function CharacterCounter() {
     var text_max = 200;
     $('#count_message').html('0 / ' + text_max);
 
-    $('#text').keyup(function() {
+    $('#text').on("keyup", function () {
         var text_length = $('#text').val().length;
         var text_remaining = text_max - text_length;
 
