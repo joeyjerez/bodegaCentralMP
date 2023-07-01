@@ -34,6 +34,7 @@ urlpatterns = [
     path('bodega/pedidos/<int:id_pedido>/edit', pedidos_edit, name="pedidos_edit"),
     path('bodega/pedidos/<int:id_pedido>/delete', pedidos_delete, name="pedidos_delete"),
     path('bodega/pedidos/<int:id_pedido>/solicitud', solicitud_transporte, name="solicitud_transporte"),
+    path('bodega/pedidos/<int:id_pedido>/actualizar', actualizar_estado, name="actualizar_estado"),
     path('bodega/sucursales/', sucursal_list, name="sucursal_list"),
     path('bodega/sucursales/new', sucursal_new, name="sucursal_new"),
     path('bodega/sucursales/<int:id_sucursal>/edit', sucursal_edit, name="sucursal_edit"),

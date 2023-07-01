@@ -37,8 +37,9 @@
                     <a href="{% url 'pedidos_new' %}" class="btn btn-success">
                         Agregar Pedido <i class="bi bi-plus-square"></i>
                     </a>
-                    <a href="https://musicpro.bemtorres.win/transporte" target="_blank" class="btn btn-warning">
-                        Página de seguimiento <i class="bi bi-box-arrow-up-right"></i>
+                    <a href="https://musicpro.bemtorres.win/transporte" target="_blank" class="btn btn-dark">
+                        Seguimiento <img src="{% static 'core/img/musicpro.png' %}" alt="MusicPro"
+                            style="height: 25px; width: 25px;"> <i class="bi bi-box-arrow-up-right"></i>
                     </a>
                 </div>
             </div>
@@ -50,6 +51,7 @@
                             <th scope="col" class="fw-bold">Fecha de Solicitud</th>
                             <th scope="col" class="fw-bold">Sucursal</th>
                             <th scope="col" class="fw-bold">Estado</th>
+                            <th scope="col" class="fw-bold">Código de Seguimiento</th>
                             <th scope="col" class="fw-bold">Acciones</th>
                         </tr>
                     </thead>
@@ -59,7 +61,23 @@
                             <td>{{p.id_pedido}}</td>
                             <td>{{p.fecha_pedido}}</td>
                             <td>{{p.sucursal}}</td>
-                            <td>{{p.estado}}</td>
+                            <td>
+                                {{p.estado}}
+                                {% if p.estado == "En proceso" or p.estado == "En camino" %}
+                                <a id="btnActualizar" class="btn btn-outline-secondary btn-sm"
+                                    href="/bodega/pedidos/{{p.id_pedido}}/actualizar" data-bs-toggle="tooltip"
+                                    data-bs-title="Actualizar estado">
+                                    <i class="bi bi-arrow-clockwise text-dark"></i>
+                                </a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if p.codigo_seguimiento is None %}
+                                <p>--</p>
+                                {% else %}
+                                {{p.codigo_seguimiento}}
+                                {% endif %}
+                            </td>
                             <td>
                                 <a class="btn btn-primary" href="/bodega/pedidos/{{p.id_pedido}}"
                                     data-bs-toggle="tooltip" data-bs-title="Detalles del pedido">
@@ -70,8 +88,15 @@
                                     <i class="bi bi-trash3"></i>
                                 </a>
                                 {% if "Pendiente" in p.estado %}
-                                <a id="btnSolicitud" class="btn btn-warning" href="/bodega/pedidos/{{p.id_pedido}}/solicitud"
-                                    data-bs-toggle="tooltip" data-bs-title="Solicitar transporte">
+                                <a id="btnSolicitud" class="btn btn-dark"
+                                    href="/bodega/pedidos/{{p.id_pedido}}/solicitud" data-bs-toggle="tooltip"
+                                    data-bs-title="Solicitar transporte a MusicPro">
+                                    <img src="{% static 'core/img/musicpro.png' %}" alt="MusicPro"
+                                        style="height: 25px; width: 25px;">
+                                </a>
+                                <a id="btnSolicitud" class="btn btn-warning"
+                                    href="/bodega/pedidos/{{p.id_pedido}}/solicitud" data-bs-toggle="tooltip"
+                                    data-bs-title="Solicitar transporte a Transporte 2">
                                     <i class="bi bi-truck"></i>
                                 </a>
                                 {% endif %}

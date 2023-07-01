@@ -43,6 +43,7 @@ class Pedido(models.Model):
     sucursal = models.ForeignKey(Sucursal, on_delete= models.CASCADE, null=False)
     productos = models.ManyToManyField(Producto, through='DetallePedido')
     estado = models.CharField(max_length=10, verbose_name='Estado', default=pend, null=False)
+    codigo_seguimiento = models.CharField(max_length=16, verbose_name="Código de Seguimiento", default=pend)
     total = models.DecimalField(max_digits=14, decimal_places=2, default=0, verbose_name='Total del Pedido')
     class Meta:
         verbose_name='pedido'
