@@ -12,21 +12,33 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         {% endif %}
-        {% if 'POST' in request.GET %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Solicitud de seguimiento creada correctamente.</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endif %}
         {% if 'FAIL' in request.GET %}
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <strong>Ha ocurrido un error.</strong> Inténtelo nuevamente más tarde.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         {% endif %}
+        {% if 'POST' in request.GET %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Solicitud de seguimiento creada correctamente.</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
         {% if 'POSTFAIL' in request.GET %}
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <strong>Ha ocurrido un error con la solicitud.</strong> Inténtelo nuevamente más tarde.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% if 'R' in request.GET %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Estado del pedido actualizado.</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% if 'RF' in request.GET %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error al actualizar estado del pedido.</strong> Inténtelo nuevamente más tarde.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         {% endif %}
@@ -63,7 +75,7 @@
                             <td>{{p.sucursal}}</td>
                             <td>
                                 {{p.estado}}
-                                {% if p.estado == "En proceso" or p.estado == "En camino" %}
+                                {% if "Completado" not in p.estado and "Entregado" not in p.estado %}
                                 <a id="btnActualizar" class="btn btn-outline-secondary btn-sm"
                                     href="/bodega/pedidos/{{p.id_pedido}}/actualizar" data-bs-toggle="tooltip"
                                     data-bs-title="Actualizar estado">
@@ -89,14 +101,14 @@
                                 </a>
                                 {% if "Pendiente" in p.estado %}
                                 <a id="btnSolicitud" class="btn btn-dark"
-                                    href="/bodega/pedidos/{{p.id_pedido}}/solicitud" data-bs-toggle="tooltip"
+                                    href="/bodega/pedidos/{{p.id_pedido}}/solicitud/1" data-bs-toggle="tooltip"
                                     data-bs-title="Solicitar transporte a MusicPro">
                                     <img src="{% static 'core/img/musicpro.png' %}" alt="MusicPro"
                                         style="height: 25px; width: 25px;">
                                 </a>
                                 <a id="btnSolicitud" class="btn btn-warning"
-                                    href="/bodega/pedidos/{{p.id_pedido}}/solicitud" data-bs-toggle="tooltip"
-                                    data-bs-title="Solicitar transporte a Transporte 2">
+                                    href="/bodega/pedidos/{{p.id_pedido}}/solicitud/2" data-bs-toggle="tooltip"
+                                    data-bs-title="Solicitar transporte a GranJVCorp">
                                     <i class="bi bi-truck"></i>
                                 </a>
                                 {% endif %}

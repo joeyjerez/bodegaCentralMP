@@ -58,35 +58,56 @@ def saludo(request):
     return HttpResponse(f"<h1>¡Saludo completado!</h1>\n<h2>{respuesta}</h2>")
 
 @login_required
-def solicitud_transporte(request, id_pedido):
-    url = 'https://musicpro.bemtorres.win/api/v1/transporte/solicitud'
+def solicitud_transporte(request, id_pedido, transporte):
+    
     pedido = Pedido.objects.get(id_pedido = id_pedido)
     
-    if "MUSICPRO" in pedido.estado:
+    if ("MUSICPRO" or "JV") in pedido.estado:
         return redirect(reverse('pedidos_list') + "?AE")
     
     else:
-        post = {
-            "nombre_origen":"bodegaCentralMP",
-            "direccion_origen":"Plaza Sésamo 123",
-            "nombre_destino": pedido.sucursal.nombre,
-            "direccion_destino": pedido.sucursal.direccion,
-            "comentario": f"Envío de Pedido #{pedido.id_pedido} para {pedido.sucursal.nombre}",
-            "info": "bodegaCentralMP"
-        }
+        
+        if transporte == 1:
+            
+            #MusicPro Bemtorres
+            url = 'https://musicpro.bemtorres.win/api/v1/transporte/solicitud'
+            
+            post = {
+                "nombre_origen":"bodegaCentralMP",
+                "direccion_origen":"Plaza Sésamo 123",
+                "nombre_destino": pedido.sucursal.nombre,
+                "direccion_destino": pedido.sucursal.direccion,
+                "comentario": f"Envío de Pedido #{pedido.id_pedido} para {pedido.sucursal.nombre}",
+                "info": "bodegaCentralMP"
+            }
+        elif transporte == 2:
+            
+            #GranJVCorp
+            url = 'http://127.0.0.1:8001/pedidos/api/v1/pedidos/'
+            
+            
+            post = {
+                "lugar_origen":"Bodega",
+                "nombre_destino": pedido.sucursal.nombre,
+                "direccion_destino": pedido.sucursal.direccion,
+                "correo_destino": "mp" + pedido.sucursal.nombre.replace(" ", "").lower()[8:] + "@musicpro.cl"
+            }
+        
+        print(post)
         
         try:
             response = requests.post(url, post)
             data = response.json()
             
             if response.status_code == 201:
-                pedido.estado = "En proceso"
+                pedido.estado = data['estado']
                 pedido.codigo_seguimiento = data['codigo_seguimiento']
                 pedido.save()
                 print("Solicitud de seguimiento realizada correctamente.")
                 return redirect(reverse('pedidos_list') + "?POST") 
             elif response.status_code == 400:
                 print("Error en la solicitud de seguimiento.")
+                print(data['mensaje'])
                 return redirect(reverse('pedidos_list') + "?POSTFAIL")
             else: raise requests.exceptions.RequestException
         except requests.exceptions.RequestException as e:
@@ -94,43 +115,51 @@ def solicitud_transporte(request, id_pedido):
             return redirect(reverse('pedidos_list') + "?POSTFAIL")
         except:
             respuesta = 'Error cualquiera.'
-            return redirect(reverse('pedidos_list') + "?RF")
+            return redirect(reverse('pedidos_list') + "?POSTFAIL")
 
 @login_required
 def actualizar_estado(request, id_pedido):
     pedido = Pedido.objects.get(id_pedido = id_pedido)
     codigo_seguimiento = pedido.codigo_seguimiento
     
-    url = f'https://musicpro.bemtorres.win/api/v1/transporte/seguimiento/{codigo_seguimiento}'
+    if "MUSICPRO" in codigo_seguimiento:
+        transporte = 1
+        url = f'https://musicpro.bemtorres.win/api/v1/transporte/seguimiento/{codigo_seguimiento}'
+    elif "JV" in codigo_seguimiento:
+        transporte = 2
+        url = f"http://127.0.0.1:8001/pedidos/api/v1/pedidos/{codigo_seguimiento}/"
     
     try:
         response = requests.get(url)
         data = response.json()
         
         if response.status_code == 200:
-            seguimiento = data['result']['estado']
-            if seguimiento == "En proceso" or seguimiento == "En camino":
+            if transporte == 1:
+                seguimiento = data['result']['estado']
                 cod_seg = data['result']['solicitud']['codigo_seguimiento']
-                
-                pedido.estado = seguimiento
-                pedido.codigo_seguimiento = cod_seg
-                pedido.save()
-            else:
-                cod_seg = data['result']['solicitud']['codigo_seguimiento']
-                pedido.estado = seguimiento
-                pedido.codigo_seguimiento = cod_seg
-                pedido.save()
-                print(f"Estado del Pedido: {seguimiento}")
-            return redirect(reverse('pedidos_list') + "?R") 
+            elif transporte == 2:
+                seguimiento = data['estado']
+                cod_seg = data['codigo_seguimiento']
+            
+            pedido.estado = seguimiento
+            pedido.codigo_seguimiento = cod_seg
+            pedido.save()
+            print(f"Estado del Pedido: {seguimiento}")
+            
+            return redirect(reverse('pedidos_list') + "?R")
+        
         elif response.status_code == 404:
+            
             print(f"Error en actualizar el estado del pedido {id_pedido}.")
             return redirect(reverse('pedidos_list') + "?RF")
+        
         else: raise requests.exceptions.RequestException
+        
     except requests.exceptions.RequestException as e:
         respuesta = 'Error: {e}'
         return redirect(reverse('pedidos_list') + "?RF")
     except:
-            respuesta = 'Error cualquiera.'
+            respuesta = 'Error desconocido.'
             return redirect(reverse('pedidos_list') + "?RF")
 
 

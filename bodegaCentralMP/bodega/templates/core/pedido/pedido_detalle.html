@@ -6,6 +6,8 @@
 {% block content %}
 <h1 class="fw-bold">Pedido #{{ pedido.id_pedido }} - {{ pedido.sucursal }}</h1>
 <br>
+<h2> <strong>Dirección:</strong> {{ pedido.sucursal.direccion }}</h2>
+<br>
 <h2><strong>Estado:</strong> {{ pedido.estado }}</h2>
 <div class="row">
     <div class="col-5">
