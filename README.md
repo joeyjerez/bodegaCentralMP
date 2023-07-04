@@ -20,4 +20,7 @@ Página de bodega para la solución de Music Pro
   * ```py manage.py runserver```
 * Abrir localhost en el navegador:
   * ```localhost:8000```
+* Credenciales Administrador:
+  * Usuario: bodega123
+  * Contraseña: solvittechnica123
 ## ¡Listo! :)
