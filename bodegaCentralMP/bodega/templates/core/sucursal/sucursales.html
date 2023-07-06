@@ -30,6 +30,7 @@
                             <th scope="col" class="fw-bold">ID Sucursal</th>
                             <th scope="col" class="fw-bold">Nombre</th>
                             <th scope="col" class="fw-bold">Dirección</th>
+                            <th scope="col" class="fw-bold">Correo</th>
                             <th scope="col" class="fw-bold">Token</th>
                             <th scope="col" class="fw-bold">Acciones</th>
                         </tr>
@@ -40,6 +41,7 @@
                             <td>{{s.id_sucursal}}</td>
                             <td>{{s.nombre}}</td>
                             <td>{{s.direccion}}</td>
+                            <td>{{s.correo}}</td>
                             <td>{{s.token}}</td>
                             <td>
                                 <a class="btn btn-warning" href="/bodega/sucursales/{{s.id_sucursal}}/edit"
@@ -65,8 +67,8 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog text-dark">
+    <div class="modal fade" tabindex="-1" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered text-dark">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="staticBackdropLabel">Atención</h5>

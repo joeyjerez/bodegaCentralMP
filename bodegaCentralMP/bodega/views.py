@@ -87,10 +87,12 @@ def solicitud_transporte(request, id_pedido, transporte):
             
             
             post = {
-                "lugar_origen":"Bodega",
+                "lugar_origen": "Bodega",
+                "nombre_origen": "bodegaCentralMP",
+                "direccion_origen": "Plaza Sésamo 123",
                 "nombre_destino": pedido.sucursal.nombre,
                 "direccion_destino": pedido.sucursal.direccion,
-                "correo_destino": "mp" + pedido.sucursal.nombre.replace(" ", "").lower()[8:] + "@musicpro.cl"
+                "correo_destino": pedido.sucursal.correo
             }
         
         print(post)

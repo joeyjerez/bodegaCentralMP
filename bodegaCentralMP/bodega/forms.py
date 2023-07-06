@@ -36,18 +36,21 @@ class SucursalForm(ModelForm):
             'id_sucursal',
             'nombre',
             'direccion',
+            'correo',
             'token',
         ]
         labels = {
             'id_sucursal' : 'ID Sucursal',
             'nombre' : 'Nombre de Sucursal',
             'direccion' : 'Dirección',
+            'correo' : 'Correo',
             'token' : 'Token',
         }
         widgets = {
             'id_sucursal' : forms.TextInput(attrs={'type':'number','class':'form-control'}),
             'nombre' : forms.TextInput(attrs={'class':'form-control', 'size':150}),
             'direccion' : forms.TextInput(attrs={'class':'form-control', 'size':120}),
+            'correo' : forms.TextInput(attrs={'type':'email', 'class':'form-control', 'size':320, 'placeholder':'nombre@ejemplo.com'}),
             'token' : forms.TextInput(attrs={'class':'form-control','size':12}),
         }
 

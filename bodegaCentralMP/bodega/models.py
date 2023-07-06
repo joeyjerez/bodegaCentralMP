@@ -22,6 +22,7 @@ class Sucursal(models.Model):
     id_sucursal = models.PositiveIntegerField(primary_key=True, verbose_name='ID Sucursal', unique=True)
     nombre = models.CharField(verbose_name='Nombre', null=False, max_length=150)
     direccion = models.CharField(verbose_name='Dirección', null=False, max_length=120)
+    correo = models.EmailField(verbose_name='Correo', default="quetransitamen@gmail.com")
     token = models.CharField(verbose_name="Token", max_length=12, unique=True, default='secret')
 
     class Meta:
