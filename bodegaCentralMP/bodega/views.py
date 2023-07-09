@@ -1,7 +1,7 @@
 #from django.shortcuts import render
 
 # Create your views here.
-import requests
+import requests, random
 from django.conf import settings
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import authenticate, login, logout
@@ -9,6 +9,8 @@ from django.http import HttpResponse
 from .models import *
 from .forms import *
 from django.contrib.auth.decorators import login_required
+from faker import Faker
+from faker.providers import BaseProvider
 
 @login_required
 def root(request):
@@ -378,3 +380,121 @@ def pedidos_delete(request, id_pedido):
 
 def admin_view(request):
     return redirect('admin/')
+
+# fake = Faker()
+
+# class instrumentoProvider(BaseProvider):
+#     def instrumento(self) -> str:
+#         LISTA_INSTRUMENTOS = ["Piano", "Guitarra acústica", "Violín", "Flauta travesera", "Batería", "Saxofón", 
+#                               "Trompeta", "Bajo eléctrico", "Arpa", "Clarinete", "Trombón", "Violonchelo", "Guitarra eléctrica", 
+#                               "Oboe", "Flauta dulce", "Tambor", "Xilófono", "Órgano", "Acordeón", "Cítara", "Banjo", 
+#                               "Bongos", "Tuba", "Mandolina", "Tambor africano", "Armónica", "Sitar", "Marimba", "Glockenspiel", 
+#                               "Trompa", "Contrabajo", "Celesta", "Bagpipes (Gaita)", "Balalaika", "Violín eléctrico", 
+#                               "Cuerno francés", "Teclado electrónico", "Sintetizador", "Tambor de acero (Steel drum)", 
+#                               "Laúd", "Gong", "Flauta de pan", "Theremin", "Kalimba", "Ocarina", "Timbales", "Dulcémele", 
+#                               "Cuatro venezolano", "Caja de música", "Zampoña", "Bouzouki", "Charango", "Corno inglés", 
+#                               "Guitarra española", "Melódica", "Sintetizador modular", "Saxofón alto", "Didgeridoo", 
+#                               "Crótalos", "Steel guitar", "Sintetizador de voz", "Fliscorno", "Acordeón diatónico", 
+#                               "Cuerno alpino", "Pandero", "Esraj", "Nyckelharpa", "Saz", "Guitarrón mexicano", 
+#                               "Pandereta", "Ondas Martenot", "Ukelele", "Tambura", "Pipa", "Cítara china", "Bajo fretless", 
+#                               "Tambor taiko", "Piccolo", "Órgano Hammond", "Trompeta de bolsillo", "Batería electrónica", 
+#                               "Timple", "Mandolina mandocello", "Cuerno de posta", "Ondas rusas", "Shofar", "Campanas tubulares", 
+#                               "Trompeta piccolo", "Clavicordio", "Djembe", "Cencerro", "Gaita de foles", "Tamborín", 
+#                               "Konghou", "Koto", "Maracas", "Sarrusófono", "Vibrafón", "Guitarra hawaiana", "Daf"]
+#         instrumento = random.choice(LISTA_INSTRUMENTOS)
+#         return instrumento
+
+# class marcaProvider(BaseProvider):
+#     def marca(self) -> str:
+#         LISTA_MARCAS = ["RockSmith", "Yamaha", "Fender", "Gibson", "Steinway & Sons", "Selmer", "Roland", "Pearl", "Martin", "Kong"]
+#         marca = random.choice(LISTA_MARCAS)
+#         return marca
+
+# fake.add_provider(instrumentoProvider)
+# fake.add_provider(marcaProvider)
+
+# @login_required
+# def productos_faker_1000(request):
+    
+#     for i in range(1000):
+#         ultimo = Producto.objects.latest('codigo')
+#         max_codigo = ultimo.codigo
+#         codigo = max_codigo + 1
+#         nombre = fake.instrumento()
+#         stock = random.randint(5,1200)
+#         marca = fake.marca()
+#         descripcion = fake.text(300)
+#         precio = fake.random_int(30000, 30000000)
+                
+#         print(codigo)
+        
+#         pedido = Producto(
+#             codigo = codigo,
+#             nombre = nombre,
+#             stock = stock,
+#             marca = marca,
+#             descripcion = descripcion,
+#             precio = precio,
+#         )
+#         pedido.save()
+#     return redirect(reverse('productos_list'))
+
+# @login_required
+# def productos_faker_10000(request):
+    
+#     for i in range(10000):
+#         ultimo = Producto.objects.latest('codigo')
+#         max_codigo = ultimo.codigo
+#         codigo = max_codigo + 1
+#         nombre = fake.instrumento()
+#         stock = random.randint(5,1200)
+#         marca = fake.marca()
+#         descripcion = fake.text(300)
+#         precio = fake.random_int(30000, 30000000)
+                
+#         print(codigo)
+        
+#         pedido = Producto(
+#             codigo = codigo,
+#             nombre = nombre,
+#             stock = stock,
+#             marca = marca,
+#             descripcion = descripcion,
+#             precio = precio,
+#         )
+#         pedido.save()
+#     return redirect(reverse('productos_list'))
+
+# @login_required
+# def productos_faker_100000(request):
+    
+#     for i in range(100000):
+#         ultimo = Producto.objects.latest('codigo')
+#         max_codigo = ultimo.codigo
+#         codigo = max_codigo + 1
+#         nombre = fake.instrumento()
+#         stock = random.randint(5,1200)
+#         marca = fake.marca()
+#         descripcion = fake.text(300)
+#         precio = fake.random_int(30000, 30000000)
+                
+#         print(codigo)
+        
+#         pedido = Producto(
+#             codigo = codigo,
+#             nombre = nombre,
+#             stock = stock,
+#             marca = marca,
+#             descripcion = descripcion,
+#             precio = precio,
+#         )
+#         pedido.save()
+#     return redirect(reverse('productos_list'))
+
+# @login_required
+# def productos_faker_delete(request):
+#     productos = Producto.objects.filter(imagen = "")
+#     productos.delete()
+    
+#     return redirect(reverse('productos_list'))
+    

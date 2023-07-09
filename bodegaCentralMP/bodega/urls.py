@@ -40,4 +40,8 @@ urlpatterns = [
     path('bodega/sucursales/<int:id_sucursal>/edit', sucursal_edit, name="sucursal_edit"),
     path('bodega/sucursales/<int:id_sucursal>/delete', sucursal_delete, name="sucursal_delete"),
     path('bodega/admin', admin_view, name="admin_view"),
+    # path('bodega/productos/faker1000', productos_faker_1000, name="productos_faker_1000"),
+    # path('bodega/productos/faker10000', productos_faker_10000, name="productos_faker_10000"),
+    # path('bodega/productos/faker100000', productos_faker_100000, name="productos_faker_100000"),
+    # path('bodega/productos/fakerdelete', productos_faker_delete, name="productos_faker_delete"),
 ]
