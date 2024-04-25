@@ -26,31 +26,34 @@
 
 </head>
 
-<body id="body-pd">
+<body onload="showTime(); getLocation();" id="body-pd">
+
+  <!-- Bloque que muestra la hora -->
+  <p id="tiempo" class="fs-5"></p>
   <header class="header" id="header">
     <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
-
   </header>
   <div class="l-navbar" id="nav-bar">
     <!--Cabeza sidebarmenu-->
     <nav class="nav">
-      <div> <a href="{% url 'index' %}" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">Bodega
+      <div> <a href="{% url 'index' %}" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span
+            class="nav_logo-name">Bodega
             Central</span> </a>
         <!--Lista de sidemenu-->
         <div class="nav_list">
           <!--Listado de links-->
           <a href="{% url 'admin_view' %}" class="nav_link active"> <i class='bx bx-user nav_icon'></i> <span
-            class="nav_name">Administrador</span></a>
+              class="nav_name">Administrador</span></a>
           <a href="{% url 'productos_list' %}" class="nav_link active"> <i class='bx bx-cart nav_icon'></i> <span
               class="nav_name">Productos</span></a>
           <a href="{% url 'pedidos_list' %}" class="nav_link active"> <i class='bx bx-box nav_icon'></i> <span
-            class="nav_name">Pedidos</span></a>
+              class="nav_name">Pedidos</span></a>
           <a href="{% url 'sucursal_list' %}" class="nav_link active"> <i class='bx bx-store nav_icon'></i> <span
-            class="nav_name">Sucursales</span></a>
+              class="nav_name">Sucursales</span></a>
         </div>
       </div>
-      <a href="{% url 'logout' %}" class="nav_link" id="logout"><i class='bx bx-log-out nav_icon'></i> <span 
-        class="nav_name">Cerrar Sesión</span></a>
+      <a href="{% url 'logout' %}" class="nav_link" id="logout"><i class='bx bx-log-out nav_icon'></i> <span
+          class="nav_name">Cerrar Sesión</span></a>
     </nav>
   </div>
   <!--Container Main start-->
@@ -58,6 +61,69 @@
 
     {% block content %}
     <!-- Agregar contenido aquí -->
+    {% endblock %}
+
+    {% block footer %}
+
+    <!-- Footer -->
+    <footer class="flex-wrap bg-light text-center">
+      <div class="py-3">
+        <!-- Redes sociales -->
+        <div>
+          <!-- Facebook -->
+          <a class="btn btn-outline-dark btn-floating m-1" href="https://es-la.facebook.com/"
+            target="_blank" role="button">
+            <i class="bi bi-facebook footer-icon"></i>
+          </a>
+
+          <!-- Instagram -->
+          <a class="btn btn-outline-dark btn-floating m-1" href="https://www.instagram.com/"
+            target="_blank" role="button">
+            <i class="bi bi-instagram footer-icon"></i>
+          </a>
+
+          <!-- Twitter -->
+          <a class="btn btn-outline-dark btn-floating m-1" href="https://twitter.com/" target="_blank"
+            role="button">
+            <i class="bi bi-twitter footer-icon"></i>
+          </a>
+        </div>
+      </div>
+      <hr>
+      <!-- Links -->
+      <div class="container-fluid">
+        <section>
+          <br>
+          <div class="row justify-content-center">
+
+            <!-- Columna links -->
+
+
+            <!-- Columna links -->
+            <div class="col-3">
+              <h5 class="text-uppercase">Datos de contacto</h5>
+              <ul class="list-unstyled mb-0">
+                <li>
+                  <p>Tel: (+56) 2 4587 2167</p>
+                </li>
+                <li>
+                  <p>Email: bodegamp@bcmp.cl</p>
+                </li>
+              </ul>
+            </div>
+
+
+
+          </div>
+        </section>
+      </div>
+
+      <!-- Copyright -->
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2024 Copyright
+      </div>
+    </footer>
+
     {% endblock %}
 
     <!-- jQuery, Popper, Bootstrap -->
