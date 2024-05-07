@@ -2,6 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from flask import Flask, Config, app, render_template
 
 
 def main():
@@ -20,3 +21,24 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+    
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(config_class)
+
+
+    from webpayplus import bp as webpay_plus_bp
+
+
+    app.register_blueprint(webpay_plus_bp, url_prefix="/webpay-plus")
+ 
+
+    @app.route('/')
+    def index():
+        return render_template('base.html')
+
+    return app
+
+
+create_app().run()
