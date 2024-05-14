@@ -33,6 +33,14 @@
   <header class="header" id="header">
     <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
   </header>
+  <!-- API Temperatura -->
+    <div class="container mt-3" id="clima">
+        <div class="weather-widget">
+            <h3>Su temperatura actual es:</h3>
+            <p id="temperatura-actual">Cargando...</p>
+        </div>
+    </div>
+    <!-- fin API Temperatura -->
   <div class="l-navbar" id="nav-bar">
     <!--Cabeza sidebarmenu-->
     <nav class="nav">
@@ -127,6 +135,8 @@
     {% endblock %}
 
     <!-- jQuery, Popper, Bootstrap -->
+    <script src="{% static 'app/js/jquery-3.7.0.min.js' %}"></script>
+    <script src="{% static 'app/js/tiempo.js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
       integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
